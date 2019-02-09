@@ -23,7 +23,7 @@
         <table>
             <tr>
                 <td>
-                    <dx:ASPxCheckBox runat="server" ID="chkSorted" AutoPostBack="True" Text="Sortert" Checked="false" OnCheckedChanged="chkSorted_OnCheckedChanged">
+                    <dx:ASPxCheckBox runat="server" ID="chkSorted" AutoPostBack="True" Text="Sortert" TextAlign="Left" Checked="false" OnCheckedChanged="chkSorted_OnCheckedChanged">                                                
                     </dx:ASPxCheckBox>
                 </td>
                 <td>
@@ -34,6 +34,7 @@
                             <dx:ListEditItem Text="50" Value="50" />
                             <dx:ListEditItem Text="70" Value="70" />
                         </Items>
+                        <CaptionSettings Position="Left"></CaptionSettings>
                     </dx:ASPxComboBox>
                 </td>
             </tr>

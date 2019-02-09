@@ -16,7 +16,7 @@ namespace NorskTipping
     [TestClass]
     public class PreviousResults
     {
-        public static int Current = 1186;
+        public static int Current = 1187;
         [TestMethod, Ignore]
         public void GetHistoricSave()
         {
