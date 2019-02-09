@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Drawing;
 using System.Drawing.Imaging;
-using DevExpress.Utils;
 using System.Net;
 
 namespace NorskTipping
@@ -22,7 +20,7 @@ namespace NorskTipping
         {
             using (var webClient = new WebClient())
             {
-                //for (int i = 1173; i > 0; i--)
+                //for (int i = Current; i > 0; i--)
                 {
                     var i = Current;
                     var json = webClient.DownloadString("https://www.norsk-tipping.no/api-lotto/getResultInfo.json?drawID=" + i);
@@ -109,12 +107,11 @@ namespace NorskTipping
 
             var chart = new ChartControl();
             chart.Padding.All = 0;
-            //.SideBySideBarDistanceFixed = 0;
             chart.Legend.Visibility = DevExpress.Utils.DefaultBoolean.False;
             chart.Width = 900;
             chart.Height = 600;
             var series = new Series("Series", ViewType.Bar) { ValueScaleType = ScaleType.Numerical, ArgumentScaleType = ScaleType.Numerical };
-            for (int i = 1; i < 35; i++)
+            for (var i = 1; i < 35; i++)
             {
                 dt.Rows.Add(i, numberOccurrence.FirstOrDefault(a => Convert.ToInt32(a.Key) == i).Value);
             }
@@ -142,7 +139,6 @@ namespace NorskTipping
                 diagram.AxisX.VisualRange.AutoSideMargins = false;
                 diagram.AxisX.WholeRange.SideMarginsValue = 0.5;
                 diagram.AxisY.WholeRange.Auto = false;
-                //diagram.AxisY.WholeRange.SetMinMaxValues(200, 280);
             }
 
             chart.ExportToImage(@"c:\NorskTipping\" + name + ".png", ImageFormat.Png);

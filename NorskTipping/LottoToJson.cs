@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace NorskTipping
@@ -61,8 +58,7 @@ namespace NorskTipping
             }
             return lot;
         }
-
-        // ,"unsortedMainTable":[14,26,10,4,31,20,34],"unsortedAddTable
+        
         public string GetNumbers(string lotto)
         {
             var startPos = lotto.LastIndexOf(_start) + _start.Length + 3;
