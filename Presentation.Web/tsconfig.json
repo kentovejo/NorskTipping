@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "target": "es5",
+    "outDir": "Script"
+  },
+  "include": [
+    "TypeScript/**/*",
+    "Scripts/typings/**/*"
+  ],
+  "exclude": [
+    "node_modules/*"
+  ]
+}
