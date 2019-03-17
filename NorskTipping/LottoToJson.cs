@@ -8,35 +8,26 @@ namespace NorskTipping
 {
     public class LottoToJson
     {
-        private string _start = "mainTable";
-        private string _end = "addTable";
+        private const string Start = "unsortedMainTable";
+        private const string End = "unsortedAddTable";
 
-        public LottoToJson(bool sorted)
+        public string Do(string path, int rounds, bool sorted)
         {
-            if (!sorted)
-            {
-                _start = "unsortedMainTable";
-                _end = "unsortedAddTable";
-            }
-        }
-
-        public string Do(int rounds)
-        {
-            var start = PreviousResults.Current - rounds;
-            var labels = Enumerable.Range(start, PreviousResults.Current - start + 1).Reverse().ToList();
-            var model = GetResultsModel(labels);
+            var start = ResultsRepository.Current - rounds;
+            var labels = Enumerable.Range(start, ResultsRepository.Current - start + 1).Reverse().ToList();
+            var model = GetResultsModel(path, labels, sorted);
             return $"lottoData = JSON.parse('{JsonConvert.SerializeObject(model)}'); labels = JSON.parse('{JsonConvert.SerializeObject(labels.Select(x => x.ToString()))}');";
         }
 
-        public string GetNumbers(int round)
+        public string GetNumbers(string path, int round)
         {            
-            return GetNumbers(File.ReadAllText($@"c:\NorskTipping\{round}.txt"));
+            return GetNumbers(File.ReadAllText($@"{path}{round}.txt"));
         }
 
-        public List<LottoResults> GetResultsModel(List<int> labels)
+        public List<LottoResults> GetResultsModel(string path, List<int> labels, bool sorted)
         {
             var lot = new List<LottoResults>();
-            for (var i = 1; i < 8; i++)
+            for (var i = 1; i < 9; i++)
             {
                 lot.Add(new LottoResults{Label = "Ball nr. "  + i, Data = new ArrayList()});
             }
@@ -48,23 +39,33 @@ namespace NorskTipping
             lot[4].BorderColor = "black";
             lot[5].BorderColor = "violet";
             lot[6].BorderColor = "pink";
+            lot[7].BorderColor = "orange";
 
             foreach (var i in labels)
             {
-                var res = GetNumbers(i);
-                var numbers = res.Split(',').Select(int.Parse).ToList();
-                for (var j = 0; j < numbers.Count; j++)
-                    lot[j].Data.Add(numbers[j]);                          
+                var res = GetNumbers(path, i);
+                var numbers = res.Split(',').Select(int.Parse);
+                if (sorted)
+                    numbers = numbers.OrderBy(q => q);
+                var numberList = numbers.ToList();
+                for (var j = 0; j < numberList.Count; j++)
+                    lot[j].Data.Add(numberList[j]);                          
             }
             return lot;
         }
         
-        public string GetNumbers(string lotto)
+        public string GetNumbers(string lottoRaw)
         {
-            var startPos = lotto.LastIndexOf(_start) + _start.Length + 3;
-            var length = lotto.IndexOf(_end) - startPos - 3;
-            var res = lotto.Substring(startPos, length);
-            return res;
+            var normal = ExtractNumbers(lottoRaw, Start, End);
+            var extra = ExtractNumbers(lottoRaw, End, "mainTable");
+            return normal+ "," + extra;
+        }
+
+        private string ExtractNumbers(string lottoRaw, string start, string end)
+        {
+            var startPos = lottoRaw.LastIndexOf(start) + start.Length + 3;
+            var length = lottoRaw.IndexOf(end) - startPos - 3;
+            return lottoRaw.Substring(startPos, length);
         }
     }
 }

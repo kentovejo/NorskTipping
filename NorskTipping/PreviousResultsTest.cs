@@ -4,31 +4,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Drawing.Imaging;
-using System.Net;
 
 namespace NorskTipping
 {
     [TestClass]
-    public class PreviousResults
+    public class PreviousResultsTest
     {
-        public static int Current = 1187;
-        [TestMethod, Ignore]
+        public const string SavePath = @"c:\NorskTipping\";
+        [TestMethod]
         public void GetHistoricSave()
         {
-            using (var webClient = new WebClient())
-            {
-                //for (int i = Current; i > 0; i--)
-                {
-                    var i = Current;
-                    var json = webClient.DownloadString("https://www.norsk-tipping.no/api-lotto/getResultInfo.json?drawID=" + i);
-                    File.WriteAllText(@"c:\NorskTipping\" + i + ".txt", json);
-                }
-            }
+            ResultsRepository.FetchResultsToDisk(SavePath);
         }
-        
+
         [DataRow(500)]
         [DataRow(400)]
         [DataRow(300)]
@@ -45,12 +35,12 @@ namespace NorskTipping
         public void GetHistoric(int max)
         {
             if (max == 0)
-                max = Current;
+                max = ResultsRepository.Current;
             var allNumbers = new ArrayList();
             var lottoString = new List<string>();
-            for (var i = Current; i > (Current - max); i--)
+            for (var i = ResultsRepository.Current; i > (ResultsRepository.Current - max); i--)
             {
-                var res = new LottoToJson(true).GetNumbers(i);
+                var res = new LottoToJson().GetNumbers(SavePath, i);
                 lottoString.Add(res);
                 allNumbers.AddRange(res.Split(','));
                 //var arr = res.Split(',').ToList();
@@ -74,15 +64,13 @@ namespace NorskTipping
         [TestMethod]
         public void GetHistoricWeek(int max)
         {
+            var current = ResultsRepository.Current;
             var allNumbers = new ArrayList();
             var lottoString = new List<string>();
-            Current -= max * 5;
-            for (int i = Current; i > (Current - 5); i--)
+            current -= max * 5;
+            for (var i = current; i > (current - 5); i--)
             {
-                var lotto = File.ReadAllText(@"c:\NorskTipping\" + i + ".txt");
-                var startPos = lotto.LastIndexOf("mainTable") + 12;
-                var length = lotto.IndexOf("addTable") - startPos - 3;
-                var res = lotto.Substring(startPos, length);
+                var res = new LottoToJson().GetNumbers(SavePath, i);
                 lottoString.Add(res);
                 var arr = res.Split(',').ToList();
                 allNumbers.AddRange(res.Split(','));
@@ -93,6 +81,15 @@ namespace NorskTipping
             //    .Select(group => group.Key);
 
             CreateChart(allNumbers, "chart_period_" + max);
+        }
+
+        [TestMethod]
+        public void CheckRound_1145()
+        {
+            var res = new LottoToJson().GetNumbers(SavePath,1145);
+            var arr = res.Split(',').ToList();
+            Assert.AreEqual(8, arr.Count);
+            Assert.AreEqual("2", arr[7]);
         }
 
         private static void CreateChart(ArrayList allNumbers, string name)
@@ -141,7 +138,7 @@ namespace NorskTipping
                 diagram.AxisY.WholeRange.Auto = false;
             }
 
-            chart.ExportToImage(@"c:\NorskTipping\" + name + ".png", ImageFormat.Png);
+            chart.ExportToImage(SavePath + name + ".png", ImageFormat.Png);
         }
     }
 }

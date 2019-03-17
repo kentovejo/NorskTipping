@@ -9,7 +9,11 @@ window.onload = function () {
             labels: labels,
             datasets: lottoData
         },
-        options: {}
+        options: {
+            hover: {
+                mode: 'index'
+            },
+        }
     });
 };
 //# sourceMappingURL=LottoResults.js.map

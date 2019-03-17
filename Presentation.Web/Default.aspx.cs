@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Script.Serialization;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Web.Hosting;
 using NorskTipping;
 
 namespace Presentation.Web
 {
     public partial class Default : System.Web.UI.Page
     {
+        public string SavePath = HostingEnvironment.MapPath(@"/App_Data/");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                ResultsRepository.FetchResultsToDisk(SavePath);
                 AddClientCode();
             }
         }
@@ -34,7 +31,7 @@ namespace Presentation.Web
             if (!Page.ClientScript.IsStartupScriptRegistered("LottoResults"))
             {
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), "LottoResults",
-                    new LottoToJson(chkSorted.Checked).Do(Convert.ToInt32(cboLastRounds.SelectedItem.Value)), true);
+                    new LottoToJson().Do(SavePath, Convert.ToInt32(cboLastRounds.SelectedItem.Value), chkSorted.Checked), true);
             }
         }
     }

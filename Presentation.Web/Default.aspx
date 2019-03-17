@@ -33,6 +33,7 @@
                             <dx:ListEditItem Text="30" Value="30" />
                             <dx:ListEditItem Text="50" Value="50" />
                             <dx:ListEditItem Text="70" Value="70" />
+                            <dx:ListEditItem Text="110" Value="110" />
                         </Items>
                         <CaptionSettings Position="Left"></CaptionSettings>
                     </dx:ASPxComboBox>

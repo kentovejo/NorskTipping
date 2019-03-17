@@ -13,8 +13,10 @@ window.onload = () => {
             labels: labels,
             datasets: lottoData
         },
-        options: {           
-            
+        options: {  
+            hover: {
+                mode: 'index'
+            },
         }
     });
 }
