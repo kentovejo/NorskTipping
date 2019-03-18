@@ -3,4 +3,4 @@ Results statistics
 
 Show results from Lotto events.
 
-Source: https://www.norsk-tipping.no/lotteri
+Provider: https://www.norsk-tipping.no/lotteri
