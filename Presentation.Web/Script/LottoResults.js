@@ -13,6 +13,15 @@ window.onload = function () {
             hover: {
                 mode: 'index'
             },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        stepSize: 1,
+                        min: 0,
+                        autoSkip: false
+                    }
+                }]
+            }
         }
     });
 };

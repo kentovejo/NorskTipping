@@ -84,6 +84,14 @@ namespace NorskTipping
         }
 
         [TestMethod]
+        public void CalculateRoundFromInitialDate()
+        {
+            var testDate = new DateTime(2019, 3, 30);
+            var totalWeeks = Math.Floor(testDate.Subtract(ResultsRepository.InitialDate).TotalDays / 7);
+            Assert.AreEqual(1194, totalWeeks);
+        }
+
+        [TestMethod]
         public void CheckRound_1145()
         {
             var res = new LottoToJson().GetNumbers(SavePath,1145);

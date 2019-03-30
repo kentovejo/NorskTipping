@@ -11,10 +11,19 @@ namespace NorskTipping
         private const string Start = "unsortedMainTable";
         private const string End = "unsortedAddTable";
 
-        public string Do(string path, int rounds, bool sorted)
+        public string Do(string path, int rounds, bool sorted, string filter)
         {
             var start = ResultsRepository.Current - rounds;
             var labels = Enumerable.Range(start, ResultsRepository.Current - start + 1).Reverse().ToList();
+            switch (filter)
+            {
+                case "EVEN":
+                    labels = labels.Where(a => a % 2 == 0).ToList();
+                    break;
+                case "ODD":
+                    labels = labels.Where(a => a % 2 == 1).ToList();
+                    break;
+            }
             var model = GetResultsModel(path, labels, sorted);
             return $"lottoData = JSON.parse('{JsonConvert.SerializeObject(model)}'); labels = JSON.parse('{JsonConvert.SerializeObject(labels.Select(x => x.ToString()))}');";
         }
@@ -24,7 +33,7 @@ namespace NorskTipping
             return GetNumbers(File.ReadAllText($@"{path}{round}.txt"));
         }
 
-        public List<LottoResults> GetResultsModel(string path, List<int> labels, bool sorted)
+        public List<LottoResults> GetResultsModel(string path, IEnumerable<int> labels, bool sorted)
         {
             var lot = new List<LottoResults>();
             for (var i = 1; i < 9; i++)

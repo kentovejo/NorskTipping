@@ -7,7 +7,8 @@ namespace NorskTipping
 {
     public class ResultsRepository
     {       
-        public static int Current = 1193;
+        public static DateTime InitialDate = new DateTime(1996,5,11);
+        public static int Current => (int)Math.Floor((DateTime.Today.Subtract(InitialDate).TotalDays - 1) / 7) + 1;
 
         public static FileInfo[] ReadAllFiles(string path)
         {

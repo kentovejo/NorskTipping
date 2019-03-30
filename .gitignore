@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /Presentation.Web/App_Data
+/Presentation.Web/Properties/PublishProfiles

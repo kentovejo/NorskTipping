@@ -26,12 +26,17 @@ namespace Presentation.Web
             AddClientCode();
         }
 
+        protected void cboFilterRounds_OnValueChanged(object sender, EventArgs e)
+        {
+            AddClientCode();
+        }
+
         private void AddClientCode()
         {
             if (!Page.ClientScript.IsStartupScriptRegistered("LottoResults"))
             {
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), "LottoResults",
-                    new LottoToJson().Do(SavePath, Convert.ToInt32(cboLastRounds.SelectedItem.Value), chkSorted.Checked), true);
+                    new LottoToJson().Do(SavePath, (int)cboLastRounds.SelectedItem.Value, chkSorted.Checked, (string)cboFilterRounds.SelectedItem.Value), true);
             }
         }
     }
