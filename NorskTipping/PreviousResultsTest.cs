@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Drawing.Imaging;
 
@@ -98,6 +99,18 @@ namespace NorskTipping
             var arr = res.Split(',').ToList();
             Assert.AreEqual(8, arr.Count);
             Assert.AreEqual("2", arr[7]);
+        }
+
+        [TestMethod]
+        public void CheckRoundYear_2018()
+        {
+            var start = (int) Math.Floor((new DateTime(2018, 1, 1).Subtract(ResultsRepository.InitialDate).TotalDays - 1) / 7) + 2;
+            var end = (int) Math.Floor((new DateTime(2018, 12, 31).Subtract(ResultsRepository.InitialDate).TotalDays - 1) / 7) + 2;           
+            for (var i = start; i < end; i++)
+            {
+                var res = new LottoToJson().GetNumbersWithDate(SavePath, i);
+                Trace.WriteLine(res.Numbers + "," + res.DrawDate);
+            }
         }
 
         private static void CreateChart(ArrayList allNumbers, string name)

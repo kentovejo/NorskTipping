@@ -27,10 +27,15 @@ namespace NorskTipping
             var model = GetResultsModel(path, labels, sorted);
             return $"lottoData = JSON.parse('{JsonConvert.SerializeObject(model)}'); labels = JSON.parse('{JsonConvert.SerializeObject(labels.Select(x => x.ToString()))}');";
         }
-
+        
         public string GetNumbers(string path, int round)
         {            
             return GetNumbers(File.ReadAllText($@"{path}{round}.txt"));
+        }
+        public (string Numbers, string DrawDate) GetNumbersWithDate(string path, int round)
+        {
+            var text = File.ReadAllText($@"{path}{round}.txt");
+            return (GetNumbers(text), GetDrawDate(text));
         }
 
         public List<LottoResults> GetResultsModel(string path, IEnumerable<int> labels, bool sorted)
@@ -69,11 +74,20 @@ namespace NorskTipping
             var extra = ExtractNumbers(lottoRaw, End, "mainTable");
             return normal+ "," + extra;
         }
-
+        
         private string ExtractNumbers(string lottoRaw, string start, string end)
         {
             var startPos = lottoRaw.LastIndexOf(start) + start.Length + 3;
             var length = lottoRaw.IndexOf(end) - startPos - 3;
+            return lottoRaw.Substring(startPos, length);
+        }
+
+        public string GetDrawDate(string lottoRaw)
+        {
+            var drawString = "drawDate";
+            var unsortedMainTable = "unsortedMainTable";
+            var startPos = lottoRaw.IndexOf(drawString) + drawString.Length + 3;
+            var length = lottoRaw.IndexOf(unsortedMainTable) - startPos - 3;
             return lottoRaw.Substring(startPos, length);
         }
     }
