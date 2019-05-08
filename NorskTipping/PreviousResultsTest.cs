@@ -13,11 +13,18 @@ namespace NorskTipping
     [TestClass]
     public class PreviousResultsTest
     {
-        public const string SavePath = @"c:\NorskTipping\";
+        private const string SavePath = @"c:\NorskTipping\";
+        private readonly Games _games = new Games();
         [TestMethod]
-        public void GetHistoricSave()
+        public void GetHistoricSave_Lotto()
         {
-            ResultsRepository.FetchResultsToDisk(SavePath);
+            _games.FetchResultsToDisk(SavePath, 0);
+        }       
+        
+        [TestMethod]
+        public void GetHistoricSave_VikingLotto()
+        {
+            _games.FetchResultsToDisk(SavePath, 1);
         }
 
         [DataRow(500)]
@@ -35,15 +42,16 @@ namespace NorskTipping
         [TestMethod]
         public void GetHistoric(int max)
         {
+            var testGame = (ToJsonBase) _games.GameTypes[0];
             if (max == 0)
-                max = ResultsRepository.Current;
+                max = testGame.Init.CurrentRound;
             var allNumbers = new ArrayList();
             var lottoString = new List<string>();
-            for (var i = ResultsRepository.Current; i > (ResultsRepository.Current - max); i--)
+            for (var i = testGame.Init.CurrentRound; i > (testGame.Init.CurrentRound - max); i--)
             {
-                var res = new LottoToJson().GetNumbers(SavePath, i);
-                lottoString.Add(res);
-                allNumbers.AddRange(res.Split(','));
+                var res = ToJsonBase.GetNumbers(SavePath + testGame.Init.Name, i);
+                lottoString.Add(res[0] + "," + res[1]);
+                allNumbers.AddRange((res[0] + "," + res[1]).Split(','));
                 //var arr = res.Split(',').ToList();
             }
             var sorted = lottoString.OrderBy(q => q).ToList();
@@ -52,6 +60,32 @@ namespace NorskTipping
             //    .Select(group => group.Key);
 
             CreateChart(allNumbers, "chart_last_" + max);
+        }
+
+        [DataRow(30)]
+        [TestMethod]
+        public void GetRoundsDifferance(int rounds)
+        {
+            var testGame = (ToJsonBase) _games.GameTypes[0];
+            var start = testGame.Init.CurrentRound - rounds;
+            var labels = Enumerable.Range(start, testGame.Init.CurrentRound - start + 1).Reverse().ToList();
+            var ltj = new LottoToJson();
+            ltj.GetResultsModel(SavePath, labels, true);
+            var roundsDifferance = new List<int[]>();
+            var ballsPrevious = new int[8];
+            for(var i = 0; i < rounds; i++)
+            {
+                var ballsDifferance = new int[8];
+                if(i > 0) {
+                    for(var j = 0; j < 8; j++)
+                        ballsDifferance[j] = Math.Abs(ballsPrevious[j] - (int)ltj.Model[j].Data[i]);
+                    roundsDifferance.Add(ballsDifferance.OrderBy(q => q).ToArray());
+                }
+                
+                for(var j = 0; j < 8; j++)
+                    ballsPrevious[j] = (int)ltj.Model[j].Data[i];
+            }
+            System.IO.File.WriteAllLines(SavePath + "DifferanceUnsigned.txt", roundsDifferance.Select(a => string.Join(" ", a)));
         }
 
         [DataRow(7)]
@@ -65,16 +99,17 @@ namespace NorskTipping
         [TestMethod]
         public void GetHistoricWeek(int max)
         {
-            var current = ResultsRepository.Current;
+            var testGame = (ToJsonBase) _games.GameTypes[0];
+            var current = testGame.Init.CurrentRound;
             var allNumbers = new ArrayList();
             var lottoString = new List<string>();
             current -= max * 5;
             for (var i = current; i > (current - 5); i--)
             {
-                var res = new LottoToJson().GetNumbers(SavePath, i);
-                lottoString.Add(res);
-                var arr = res.Split(',').ToList();
-                allNumbers.AddRange(res.Split(','));
+                var res = ToJsonBase.GetNumbers(SavePath + testGame.Init.Name, i);
+                lottoString.Add((res[0] + "," + res[1]));
+                var arr = (res[0] + "," + res[1]).Split(',').ToList();
+                allNumbers.AddRange((res[0] + "," + res[1]).Split(','));
             }
             var sorted = lottoString.OrderBy(q => q).ToList();
             //var duplicateKeys = lottoString.GroupBy(x => x)
@@ -85,18 +120,29 @@ namespace NorskTipping
         }
 
         [TestMethod]
-        public void CalculateRoundFromInitialDate()
+        public void CalculateRoundFromInitialDate_Lotto()
         {
+            var testGame = (ToJsonBase) _games.GameTypes[0];
             var testDate = new DateTime(2019, 3, 30);
-            var totalWeeks = Math.Floor(testDate.Subtract(ResultsRepository.InitialDate).TotalDays / 7);
+            var totalWeeks = Math.Floor(testDate.Subtract(testGame.Init.InitialDate).TotalDays / 7);
             Assert.AreEqual(1194, totalWeeks);
+        }
+
+        [TestMethod]
+        public void CalculateRoundFromInitialDate_VikingLotto()
+        {
+            var testGame = (ToJsonBase) _games.GameTypes[1];
+            var testDate = new DateTime(2019, 5, 1);
+            var totalWeeks = Math.Floor(testDate.Subtract(testGame.Init.InitialDate).TotalDays / 7);
+            Assert.AreEqual(1200, totalWeeks);
         }
 
         [TestMethod]
         public void CheckRound_1145()
         {
-            var res = new LottoToJson().GetNumbers(SavePath,1145);
-            var arr = res.Split(',').ToList();
+            var testGame = (ToJsonBase) _games.GameTypes[0];
+            var res = ToJsonBase.GetNumbers(SavePath + testGame.Init.Name,1145);
+            var arr = (res[0] + "," + res[1]).Split(',').ToList();
             Assert.AreEqual(8, arr.Count);
             Assert.AreEqual("2", arr[7]);
         }
@@ -104,12 +150,13 @@ namespace NorskTipping
         [TestMethod]
         public void CheckRoundYear_2018()
         {
-            var start = (int) Math.Floor((new DateTime(2018, 1, 1).Subtract(ResultsRepository.InitialDate).TotalDays - 1) / 7) + 2;
-            var end = (int) Math.Floor((new DateTime(2018, 12, 31).Subtract(ResultsRepository.InitialDate).TotalDays - 1) / 7) + 2;           
+            var testGame = (ToJsonBase) _games.GameTypes[0];
+            var start = (int) Math.Floor((new DateTime(2018, 1, 1).Subtract(testGame.Init.InitialDate).TotalDays - 1) / 7) + 2;
+            var end = (int) Math.Floor((new DateTime(2018, 12, 31).Subtract(testGame.Init.InitialDate).TotalDays - 1) / 7) + 2;           
             for (var i = start; i < end; i++)
             {
-                var res = new LottoToJson().GetNumbersWithDate(SavePath, i);
-                Trace.WriteLine(res.Numbers + "," + res.DrawDate);
+                var res = new LottoToJson().GetNumbersWithDate(SavePath + testGame.Init.Name, i);
+                Trace.WriteLine(res.Numbers[0] + "," + res.Numbers[1] + "," + res.DrawDate);
             }
         }
 

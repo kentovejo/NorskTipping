@@ -18,10 +18,21 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div style="position: absolute; top: 5px; left: 10px">
+        <div>
+            <canvas id="lottoChart"></canvas>
+        </div>
         <table>
             <tr>
-                <td>
+                <td style="padding-right: 5px;">
+                    <dx:ASPxComboBox runat="server" ID="cboGame" AutoPostBack="True" Caption="Spill" OnValueChanged="cboGame_OnValueChanged" SelectedIndex="0" ValueType="System.Int32">
+                        <Items>
+                            <dx:ListEditItem Text="Lotto" Value="0" />
+                            <dx:ListEditItem Text="VikingLotto" Value="1" />
+                        </Items>
+                        <CaptionSettings Position="Left"></CaptionSettings>
+                    </dx:ASPxComboBox>
+                </td>
+                <td style="padding-right: 5px;">
                     <dx:ASPxCheckBox runat="server" ID="chkSorted" AutoPostBack="True" Text="Sortert" TextAlign="Left" Checked="false" OnCheckedChanged="chkSorted_OnCheckedChanged">                                                
                     </dx:ASPxCheckBox>
                 </td>
@@ -48,10 +59,7 @@
                     </dx:ASPxComboBox>
                 </td>
             </tr>
-        </table></div>
-        <div>
-            <canvas id="lottoChart"></canvas>
-        </div>
+        </table>
     </form>
 </body>
 </html>

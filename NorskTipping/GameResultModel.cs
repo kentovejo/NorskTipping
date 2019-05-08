@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace NorskTipping
 {
-    public class LottoResults
+    public class GameResultModel
     {
         [JsonProperty(PropertyName = "data")]
         public ArrayList Data { get; set; } = new ArrayList();

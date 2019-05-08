@@ -6,12 +6,13 @@ namespace Presentation.Web
 {
     public partial class Default : System.Web.UI.Page
     {
-        public string SavePath = HostingEnvironment.MapPath(@"/App_Data/");
+        private readonly Games _game = new Games();
+        private readonly string _savePath = HostingEnvironment.MapPath(@"/App_Data/");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                ResultsRepository.FetchResultsToDisk(SavePath);
+                _game.FetchResultsToDisk(_savePath, cboGame.SelectedIndex);
                 AddClientCode();
             }
         }
@@ -31,12 +32,17 @@ namespace Presentation.Web
             AddClientCode();
         }
 
+        protected void cboGame_OnValueChanged(object sender, EventArgs e)
+        {
+            AddClientCode();
+        }
+
         private void AddClientCode()
         {
             if (!Page.ClientScript.IsStartupScriptRegistered("LottoResults"))
             {
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), "LottoResults",
-                    new LottoToJson().Do(SavePath, (int)cboLastRounds.SelectedItem.Value, chkSorted.Checked, (string)cboFilterRounds.SelectedItem.Value), true);
+                    _game.Do(cboGame.SelectedIndex, _savePath, (int)cboLastRounds.SelectedItem.Value, chkSorted.Checked, (string)cboFilterRounds.SelectedItem.Value), true);
             }
         }
     }
