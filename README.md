@@ -1,5 +1,5 @@
 # Norsk Tipping
-This is an unofficial way to show result from the following gametypes:
+This is an unofficial way to show results from the following gametypes:
 
 - Lotto
 - Vikinglotto
