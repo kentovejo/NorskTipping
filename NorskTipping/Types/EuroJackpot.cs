@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 
 namespace NorskTipping
 {
-    public class VikingLottoToJson: ToJsonBase, IGame
+    public class EuroJackpot: ToJsonBase, IGame
     {
-        public VikingLottoToJson()
+        public EuroJackpot()
         {
-            Init = new GameInit{ Name = "VikingLotto", InitialDate = new DateTime(1996,5,9), EndPoint = Endpoints.VikingLotto};
+            Init = new GameInit{ Name = "EuroJackpot", InitialDate = new DateTime(2013,2,6), EndPoint = Endpoints.EuroJackpot};
         }
         public string Do(string path, int rounds, bool sorted, string filter)
         {

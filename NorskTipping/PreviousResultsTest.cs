@@ -22,9 +22,15 @@ namespace NorskTipping
         }       
         
         [TestMethod]
-        public void GetHistoricSave_VikingLotto()
+        public void GetHistoricSave_Vikinglotto()
         {
             _games.FetchResultsToDisk(SavePath, 1);
+        } 
+        
+        [TestMethod]
+        public void GetHistoricSave_EuroJackpot()
+        {
+            _games.FetchResultsToDisk(SavePath, 2);
         }
 
         [DataRow(500)]
@@ -69,7 +75,7 @@ namespace NorskTipping
             var testGame = (ToJsonBase) _games.GameTypes[0];
             var start = testGame.Init.CurrentRound - rounds;
             var labels = Enumerable.Range(start, testGame.Init.CurrentRound - start + 1).Reverse().ToList();
-            var ltj = new LottoToJson();
+            var ltj = new Lotto();
             ltj.GetResultsModel(SavePath, labels, true);
             var roundsDifferance = new List<int[]>();
             var ballsPrevious = new int[8];
@@ -138,6 +144,15 @@ namespace NorskTipping
         }
 
         [TestMethod]
+        public void CalculateRoundFromInitialDate_Eurojackpot()
+        {
+            var testGame = (ToJsonBase) _games.GameTypes[2];
+            var testDate = new DateTime(2019, 5, 3);
+            var totalWeeks = Math.Floor(testDate.Subtract(testGame.Init.InitialDate).TotalDays / 7);
+            Assert.AreEqual(327, totalWeeks);
+        }
+
+        [TestMethod]
         public void CheckRound_1145()
         {
             var testGame = (ToJsonBase) _games.GameTypes[0];
@@ -155,7 +170,7 @@ namespace NorskTipping
             var end = (int) Math.Floor((new DateTime(2018, 12, 31).Subtract(testGame.Init.InitialDate).TotalDays - 1) / 7) + 2;           
             for (var i = start; i < end; i++)
             {
-                var res = new LottoToJson().GetNumbersWithDate(SavePath + testGame.Init.Name, i);
+                var res = new Lotto().GetNumbersWithDate(SavePath + testGame.Init.Name, i);
                 Trace.WriteLine(res.Numbers[0] + "," + res.Numbers[1] + "," + res.DrawDate);
             }
         }

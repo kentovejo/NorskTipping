@@ -12,8 +12,9 @@ namespace NorskTipping
 
         public Games()
         {
-            GameTypes.Add(new LottoToJson());
-            GameTypes.Add(new VikingLottoToJson());
+            GameTypes.Add(new Lotto());
+            GameTypes.Add(new Vikinglotto());
+            GameTypes.Add(new EuroJackpot());
         }
 
         public string Do(int index, string path, int rounds, bool sorted, string filter)
