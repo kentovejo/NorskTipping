@@ -12,7 +12,6 @@ namespace Presentation.Web
         {
             if (!IsPostBack)
             {
-                _game.FetchResultsToDisk(_savePath, cboGame.SelectedIndex);
                 AddClientCode();
             }
         }
@@ -39,6 +38,7 @@ namespace Presentation.Web
 
         private void AddClientCode()
         {
+            _game.FetchResultsToDisk(_savePath, cboGame.SelectedIndex);
             if (!Page.ClientScript.IsStartupScriptRegistered("LottoResults"))
             {
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), "LottoResults",

@@ -11,7 +11,11 @@
             -webkit-user-select: none;
             -ms-user-select: none;
         }
-        html, body { margin: 0; padding: 0; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
     </style>
     <script src="Scripts/Chart.js"></script>
     <script src="Script/LottoResults.js"></script>
@@ -21,7 +25,7 @@
         <div>
             <canvas id="lottoChart"></canvas>
         </div>
-        <table style="margin-bottom: 20px;margin-left: 20px;">
+        <table style="margin-bottom: 20px; margin-left: 20px;">
             <tr>
                 <td style="padding-right: 5px;">
                     <dx:ASPxComboBox runat="server" ID="cboGame" AutoPostBack="True" Caption="Spill" OnValueChanged="cboGame_OnValueChanged" SelectedIndex="0" ValueType="System.Int32">
@@ -34,7 +38,7 @@
                     </dx:ASPxComboBox>
                 </td>
                 <td style="padding-right: 5px;">
-                    <dx:ASPxCheckBox runat="server" ID="chkSorted" AutoPostBack="True" Text="Sortert" TextAlign="Left" Checked="false" OnCheckedChanged="chkSorted_OnCheckedChanged">                                                
+                    <dx:ASPxCheckBox runat="server" ID="chkSorted" AutoPostBack="True" Text="Sortert" TextAlign="Left" Checked="false" OnCheckedChanged="chkSorted_OnCheckedChanged">
                     </dx:ASPxCheckBox>
                 </td>
                 <td style="padding-right: 5px;">

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -28,7 +27,7 @@ namespace NorskTipping
             var di = ResultsRepository.ReadAllFiles(basePath + game.Init.Name);
             using (var webClient = new WebClient())
             {
-                for (var i = game.Init.CurrentRound; i > 0; i--)
+                for (var i = game.CurrentRound; i > 0; i--)
                 {
                     var file = di.FirstOrDefault(a => a.Name == i + ".txt");
                     if (file != null)

@@ -50,10 +50,10 @@ namespace NorskTipping
         {
             var testGame = (ToJsonBase) _games.GameTypes[0];
             if (max == 0)
-                max = testGame.Init.CurrentRound;
+                max = testGame.CurrentRound;
             var allNumbers = new ArrayList();
             var lottoString = new List<string>();
-            for (var i = testGame.Init.CurrentRound; i > (testGame.Init.CurrentRound - max); i--)
+            for (var i = testGame.CurrentRound; i > (testGame.CurrentRound - max); i--)
             {
                 var res = ToJsonBase.GetNumbers(SavePath + testGame.Init.Name, i);
                 lottoString.Add(res[0] + "," + res[1]);
@@ -73,8 +73,8 @@ namespace NorskTipping
         public void GetRoundsDifferance(int rounds)
         {
             var testGame = (ToJsonBase) _games.GameTypes[0];
-            var start = testGame.Init.CurrentRound - rounds;
-            var labels = Enumerable.Range(start, testGame.Init.CurrentRound - start + 1).Reverse().ToList();
+            var start = testGame.CurrentRound - rounds;
+            var labels = Enumerable.Range(start, testGame.CurrentRound - start + 1).Reverse().ToList();
             var ltj = new Lotto();
             ltj.GetResultsModel(SavePath, labels, true);
             var roundsDifferance = new List<int[]>();
@@ -106,7 +106,7 @@ namespace NorskTipping
         public void GetHistoricWeek(int max)
         {
             var testGame = (ToJsonBase) _games.GameTypes[0];
-            var current = testGame.Init.CurrentRound;
+            var current = testGame.CurrentRound;
             var allNumbers = new ArrayList();
             var lottoString = new List<string>();
             current -= max * 5;

@@ -14,8 +14,8 @@ namespace NorskTipping
         }
         public string Do(string path, int rounds, bool sorted, string filter)
         {
-            var start = Init.CurrentRound - rounds;
-            var labels = Enumerable.Range(start, Init.CurrentRound - start + 1).Reverse().ToList();
+            var start = CurrentRound - rounds;
+            var labels = Enumerable.Range(start, CurrentRound - start + 1).Reverse().ToList();
             switch (filter)
             {
                 case "EVEN":

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ namespace NorskTipping
     public class ToJsonBase
     {
         public GameInit Init;
+        public int CurrentRound => (int)Math.Floor((DateTime.Today.Subtract(Init.InitialDate).TotalDays - 1) / 7) + 1;
         public List<GameResultModel> Model = new List<GameResultModel>();
         public static string[] GetNumbers(string path, int round)
         {            
