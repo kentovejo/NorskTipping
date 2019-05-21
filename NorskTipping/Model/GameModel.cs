@@ -2,7 +2,7 @@
 
 namespace NorskTipping
 {
-    public struct GameInit
+    public struct GameModel
     {
         public DateTime InitialDate { get; internal set; }
         public string Name { get; internal set; }

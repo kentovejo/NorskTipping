@@ -10,7 +10,7 @@ namespace NorskTipping
     {
         public EuroJackpot()
         {
-            Init = new GameInit{ Name = "EuroJackpot", InitialDate = new DateTime(2013,2,6), EndPoint = Endpoints.EuroJackpot};
+            Init = new GameModel{ Name = "EuroJackpot", InitialDate = new DateTime(2013,2,6), EndPoint = Endpoints.EuroJackpot};
         }
         public string Do(string path, int rounds, bool sorted, string filter)
         {
@@ -43,18 +43,7 @@ namespace NorskTipping
             Model[4].BorderColor = "black";
             Model[5].BorderColor = "violet";
             Model[6].BorderColor = "pink";
-
-            foreach (var i in labels)
-            {
-                var res = GetNumbers(path + Init.Name, i);
-                var numbers = res[0].Split(',').Select(int.Parse);
-                if (sorted)
-                    numbers = numbers.OrderBy(q => q);
-                var numberList = numbers.ToList();
-                numberList.AddRange(res[1].Split(',').Select(int.Parse));
-                for (var j = 0; j < numberList.Count; j++)
-                    Model[j].Data.Add(numberList[j]);                          
-            }
+            ConvertToModel(path, labels, sorted);
         }
     }
 }

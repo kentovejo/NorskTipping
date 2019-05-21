@@ -66,10 +66,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Endpoints.cs" />
-    <Compile Include="GameInit.cs" />
-    <Compile Include="GameResultModel.cs" />
+    <Compile Include="Model\GameModel.cs" />
+    <Compile Include="GameRoundResult.cs" />
+    <Compile Include="Model\GameRoundResultModel.cs" />
+    <Compile Include="GameType.cs" />
+    <Compile Include="Model\GameResultModel.cs" />
     <Compile Include="Games.cs" />
-    <Compile Include="IGame.cs" />
+    <Compile Include="Interface\IGame.cs" />
+    <Compile Include="Interface\IGameResult.cs" />
     <Compile Include="ToJsonBase.cs" />
     <Compile Include="Types\EuroJackpot.cs" />
     <Compile Include="Types\Vikinglotto.cs" />

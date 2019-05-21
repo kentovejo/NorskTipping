@@ -1,39 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace NorskTipping
 {
     public class ToJsonBase
     {
-        public GameInit Init;
+        public GameModel Init;
         public int CurrentRound => (int)Math.Floor((DateTime.Today.Subtract(Init.InitialDate).TotalDays - 1) / 7) + 1;
         public List<GameResultModel> Model = new List<GameResultModel>();
-        public static string[] GetNumbers(string path, int round)
+        public static GameRoundResultModel GetNumbers(string path, int round)
         {            
-            return GetNumbers(File.ReadAllText($@"{path}\{round}.txt"));
+            return new GameRoundResult().GetRound(path, round);
         }
-
-        public (string[] Numbers, string DrawDate) GetNumbersWithDate(string path, int round)
+        public void ConvertToModel(string path, IEnumerable<int> labels, bool sorted)
         {
-            var text = File.ReadAllText($@"{path}\{round}.txt");
-            return (GetNumbers(text), GetDrawDate(text));
-        }
-
-        private static string[] GetNumbers(string lottoRaw)
-        {
-            return Regex.Matches(lottoRaw, @"\[.*?\]").Cast<Match>().Select(m => m.Value.Replace("[", "").Replace("]", "")).ToArray();
-        }
-
-        private string GetDrawDate(string lottoRaw)
-        {
-            const string drawString = "drawDate";
-            const string unsortedMainTable = "unsortedMainTable";
-            var startPos = lottoRaw.IndexOf(drawString) + drawString.Length + 3;
-            var length = lottoRaw.IndexOf(unsortedMainTable) - startPos - 3;
-            return lottoRaw.Substring(startPos, length);
+            foreach (var i in labels)
+            {
+                var res = GetNumbers(path + Init.Name, i);
+                if (sorted)
+                    res.UnsortedMainTable.Sort();
+                res.UnsortedMainTable.AddRange(res.AddTable);
+                for (var j = 0; j < res.UnsortedMainTable.Count; j++)
+                    Model[j].Data.Add(res.UnsortedMainTable[j]);
+            }
         }
     }
 }

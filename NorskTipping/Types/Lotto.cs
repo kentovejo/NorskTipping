@@ -10,7 +10,7 @@ namespace NorskTipping
     {
         public Lotto()
         {
-            Init = new GameInit {Name = "Lotto", InitialDate = new DateTime(1996, 5, 11), EndPoint = Endpoints.Lotto};
+            Init = new GameModel {Name = "Lotto", InitialDate = new DateTime(1996, 5, 11), EndPoint = Endpoints.Lotto};
         }
         public string Do(string path, int rounds, bool sorted, string filter)
         {
@@ -44,18 +44,7 @@ namespace NorskTipping
             Model[5].BorderColor = "violet";
             Model[6].BorderColor = "pink";
             Model[7].BorderColor = "orange";
-
-            foreach (var i in labels)
-            {
-                var res = GetNumbers(path + Init.Name, i);
-                var numbers = res[0].Split(',').Select(int.Parse);
-                if (sorted)
-                    numbers = numbers.OrderBy(q => q);
-                var numberList = numbers.ToList();
-                numberList.AddRange(res[1].Split(',').Select(int.Parse));
-                for (var j = 0; j < numberList.Count; j++)
-                    Model[j].Data.Add(numberList[j]);                          
-            }
+            ConvertToModel(path, labels, sorted);
         }
     }
 }
