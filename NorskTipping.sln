@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2050
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorskTipping", "NorskTipping\NorskTipping.csproj", "{39FCF848-262A-4D4B-BFB0-BFEC453B3455}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Web", "Presentation.Web\Presentation.Web.csproj", "{8E88D50F-4082-4CB3-A01B-16654E427010}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorskTippingTest", "NorskTippingTest\NorskTippingTest.csproj", "{822732D4-FAAC-422A-95CC-3C8E03B2A6F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8E88D50F-4082-4CB3-A01B-16654E427010}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E88D50F-4082-4CB3-A01B-16654E427010}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E88D50F-4082-4CB3-A01B-16654E427010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{822732D4-FAAC-422A-95CC-3C8E03B2A6F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{822732D4-FAAC-422A-95CC-3C8E03B2A6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{822732D4-FAAC-422A-95CC-3C8E03B2A6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{822732D4-FAAC-422A-95CC-3C8E03B2A6F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

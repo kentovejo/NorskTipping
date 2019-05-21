@@ -1,12 +1,9 @@
 ﻿namespace NorskTipping
 {
-    public partial class PreviousResultsTest
+    public enum GameType
     {
-        enum GameType
-        {
-            Lotto,
-            Vikinglotto,
-            EuroJackpot
-        }
+        Lotto,
+        Vikinglotto,
+        EuroJackpot
     }
 }
