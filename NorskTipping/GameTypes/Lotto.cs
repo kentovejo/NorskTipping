@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 
 namespace NorskTipping
 {
-    public class EuroJackpot: ToJsonBase, IGame
+    public class Lotto : BasicGame, IGame
     {
-        public EuroJackpot()
+        public Lotto()
         {
-            Init = new GameModel{ Name = "EuroJackpot", InitialDate = new DateTime(2013,2,6), EndPoint = Endpoints.EuroJackpot};
+            Init = new GameModel {Name = "Lotto", InitialDate = new DateTime(1996, 5, 11), EndPoint = Endpoints.Lotto};
         }
         public string Do(string path, int rounds, bool sorted, string filter)
         {
@@ -29,9 +29,9 @@ namespace NorskTipping
             return $"lottoData = JSON.parse('{JsonConvert.SerializeObject(Model)}'); labels = JSON.parse('{JsonConvert.SerializeObject(labels.Select(x => x.ToString()))}');";
         }
 
-        private void GetResultsModel(string path, IEnumerable<int> labels, bool sorted)
+        public void GetResultsModel(string path, IEnumerable<int> labels, bool sorted)
         {
-            for (var i = 1; i < 8; i++)
+            for (var i = 1; i < 9; i++)
             {
                 Model.Add(new GameResultModel{Label = "Ball nr. "  + i, Data = new ArrayList()});
             }
@@ -43,6 +43,7 @@ namespace NorskTipping
             Model[4].BorderColor = "black";
             Model[5].BorderColor = "violet";
             Model[6].BorderColor = "pink";
+            Model[7].BorderColor = "orange";
             ConvertToModel(path, labels, sorted);
         }
     }

@@ -19,19 +19,19 @@ namespace NorskTippingTest
         [TestMethod]
         public void GetHistoricSave_Lotto()
         {
-            ResultsRepository.FetchResultsToDisk(SavePath, (ToJsonBase)_games.GameTypes[(int)GameType.Lotto]);
+            FileRepository.FetchResultsToDisk(SavePath, (BasicGame)_games.GameTypes[(int)GameType.Lotto]);
         }       
         
         [TestMethod]
         public void GetHistoricSave_Vikinglotto()
         {
-            ResultsRepository.FetchResultsToDisk(SavePath, (ToJsonBase)_games.GameTypes[(int)GameType.Vikinglotto]);
+            FileRepository.FetchResultsToDisk(SavePath, (BasicGame)_games.GameTypes[(int)GameType.Vikinglotto]);
         } 
         
         [TestMethod]
         public void GetHistoricSave_EuroJackpot()
         {
-            ResultsRepository.FetchResultsToDisk(SavePath, (ToJsonBase)_games.GameTypes[(int)GameType.EuroJackpot]);
+            FileRepository.FetchResultsToDisk(SavePath, (BasicGame)_games.GameTypes[(int)GameType.EuroJackpot]);
         }
 
         [DataRow(500)]
@@ -49,14 +49,14 @@ namespace NorskTippingTest
         [TestMethod]
         public void GetHistoric(int max)
         {
-            var testGame = (ToJsonBase) _games.GameTypes[(int)GameType.Lotto];
+            var testGame = (BasicGame) _games.GameTypes[(int)GameType.Lotto];
             if (max == 0)
                 max = testGame.CurrentRound;
             var allNumbers = new ArrayList();
             var lottoString = new List<string>();
             for (var i = testGame.CurrentRound; i > (testGame.CurrentRound - max); i--)
             {
-                var res = ToJsonBase.GetNumbers(SavePath + testGame.Init.Name, i);
+                var res = BasicGame.GetNumbers(SavePath + testGame.Init.Name, i);
                 lottoString.Add(string.Join(",", res.MainTable));
                 allNumbers.AddRange(res.MainTable);
                 //var arr = res.Split(',').ToList();
@@ -73,7 +73,7 @@ namespace NorskTippingTest
         [TestMethod]
         public void GetRoundsDifferance(int rounds)
         {
-            var testGame = (ToJsonBase) _games.GameTypes[(int)GameType.Lotto];
+            var testGame = (BasicGame) _games.GameTypes[(int)GameType.Lotto];
             var start = testGame.CurrentRound - rounds;
             var labels = Enumerable.Range(start, testGame.CurrentRound - start + 1).Reverse().ToList();
             var ltj = new Lotto();
@@ -106,14 +106,14 @@ namespace NorskTippingTest
         [TestMethod]
         public void GetHistoricWeek(int max)
         {
-            var testGame = (ToJsonBase) _games.GameTypes[(int)GameType.Lotto];
+            var testGame = (BasicGame) _games.GameTypes[(int)GameType.Lotto];
             var current = testGame.CurrentRound;
             var allNumbers = new ArrayList();
             var lottoString = new List<string>();
             current -= max * 5;
             for (var i = current; i > (current - 5); i--)
             {
-                var res = ToJsonBase.GetNumbers(SavePath + testGame.Init.Name, i);
+                var res = BasicGame.GetNumbers(SavePath + testGame.Init.Name, i);
                 lottoString.Add(string.Join(",", res.MainTable));
                 allNumbers.AddRange(res.MainTable);
             }
@@ -128,7 +128,7 @@ namespace NorskTippingTest
         [TestMethod]
         public void CalculateRoundFromInitialDate_Lotto()
         {
-            var testGame = (ToJsonBase) _games.GameTypes[(int)GameType.Lotto];
+            var testGame = (BasicGame) _games.GameTypes[(int)GameType.Lotto];
             var testDate = new DateTime(2019, 3, 30);
             var totalWeeks = Math.Floor(testDate.Subtract(testGame.Init.InitialDate).TotalDays / 7);
             Assert.AreEqual(1194, totalWeeks);
@@ -137,7 +137,7 @@ namespace NorskTippingTest
         [TestMethod]
         public void CalculateRoundFromInitialDate_VikingLotto()
         {
-            var testGame = (ToJsonBase) _games.GameTypes[(int)GameType.Vikinglotto];
+            var testGame = (BasicGame) _games.GameTypes[(int)GameType.Vikinglotto];
             var testDate = new DateTime(2019, 5, 1);
             var totalWeeks = Math.Floor(testDate.Subtract(testGame.Init.InitialDate).TotalDays / 7);
             Assert.AreEqual(1200, totalWeeks);
@@ -146,7 +146,7 @@ namespace NorskTippingTest
         [TestMethod]
         public void CalculateRoundFromInitialDate_Eurojackpot()
         {
-            var testGame = (ToJsonBase) _games.GameTypes[(int)GameType.EuroJackpot];
+            var testGame = (BasicGame) _games.GameTypes[(int)GameType.EuroJackpot];
             var testDate = new DateTime(2019, 5, 3);
             var totalWeeks = Math.Floor(testDate.Subtract(testGame.Init.InitialDate).TotalDays / 7);
             Assert.AreEqual(325, totalWeeks);
@@ -155,8 +155,8 @@ namespace NorskTippingTest
         [TestMethod]
         public void CheckRound_1145()
         {
-            var testGame = (ToJsonBase) _games.GameTypes[(int)GameType.Lotto];
-            var res = ToJsonBase.GetNumbers(SavePath + testGame.Init.Name,1145);
+            var testGame = (BasicGame) _games.GameTypes[(int)GameType.Lotto];
+            var res = BasicGame.GetNumbers(SavePath + testGame.Init.Name,1145);
             Assert.AreEqual(7, res.MainTable.Count);
             Assert.AreEqual(1, res.AddTable.Count);
             Assert.AreEqual(2, res.AddTable[0]);
@@ -165,7 +165,7 @@ namespace NorskTippingTest
         [TestMethod]
         public void CheckRoundYear_2018()
         {
-            var testGame = (ToJsonBase) _games.GameTypes[(int)GameType.Lotto];
+            var testGame = (BasicGame) _games.GameTypes[(int)GameType.Lotto];
             var start = (int) Math.Floor((new DateTime(2018, 1, 1).Subtract(testGame.Init.InitialDate).TotalDays - 1) / 7) + 2;
             var end = (int) Math.Floor((new DateTime(2018, 12, 31).Subtract(testGame.Init.InitialDate).TotalDays - 1) / 7) + 2;           
             for (var i = start; i < end; i++)

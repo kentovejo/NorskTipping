@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace NorskTipping
 {
-    public class Vikinglotto: ToJsonBase, IGame
+    public class Vikinglotto: BasicGame, IGame
     {
         public Vikinglotto()
         {

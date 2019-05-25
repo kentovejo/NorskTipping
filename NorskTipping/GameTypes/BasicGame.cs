@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NorskTipping
 {
-    public class ToJsonBase
+    public class BasicGame
     {
         public GameModel Init;
         public int CurrentRound => (int)Math.Floor((DateTime.Today.Subtract(Init.InitialDate).TotalDays - 1) / 7) + 1;
@@ -19,7 +19,8 @@ namespace NorskTipping
                 var res = GetNumbers(path + Init.Name, i);
                 if (sorted)
                     res.UnsortedMainTable.Sort();
-                res.UnsortedMainTable.AddRange(res.AddTable);
+                if(res.AddTable != null)
+                    res.UnsortedMainTable.AddRange(res.AddTable);
                 for (var j = 0; j < res.UnsortedMainTable.Count; j++)
                     Model[j].Data.Add(res.UnsortedMainTable[j]);
             }

@@ -38,7 +38,7 @@ namespace Presentation.Web
 
         private void AddClientCode()
         {
-            ResultsRepository.FetchResultsToDisk(_savePath, (ToJsonBase)_game.GameTypes[cboGame.SelectedIndex]);
+            FileRepository.FetchResultsToDisk(_savePath, (BasicGame)_game.GameTypes[cboGame.SelectedIndex]);
             if (!Page.ClientScript.IsStartupScriptRegistered("LottoResults"))
             {
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), "LottoResults",

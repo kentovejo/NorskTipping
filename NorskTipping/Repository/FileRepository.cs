@@ -6,7 +6,7 @@ using System.Net;
 
 namespace NorskTipping
 {
-    public class ResultsRepository
+    public class FileRepository
     {
         private static FileInfo[] ReadAllFiles(string path)
         {
@@ -16,7 +16,7 @@ namespace NorskTipping
             return di.GetFiles("*.txt");
         }
 
-        public static void FetchResultsToDisk(string basePath, ToJsonBase game)
+        public static void FetchResultsToDisk(string basePath, BasicGame game)
         {
             var di = ReadAllFiles(basePath + game.Init.Name);
             using (var webClient = new WebClient())

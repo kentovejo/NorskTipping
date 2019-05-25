@@ -58,21 +58,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Endpoints.cs" />
+    <Compile Include="Configuration\Endpoints.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="GameRoundResult.cs" />
     <Compile Include="Model\GameRoundResultModel.cs" />
-    <Compile Include="GameType.cs" />
+    <Compile Include="Configuration\GameType.cs" />
     <Compile Include="Model\GameResultModel.cs" />
     <Compile Include="Games.cs" />
     <Compile Include="Interface\IGame.cs" />
     <Compile Include="Interface\IGameResult.cs" />
-    <Compile Include="ToJsonBase.cs" />
-    <Compile Include="Types\EuroJackpot.cs" />
-    <Compile Include="Types\Vikinglotto.cs" />
-    <Compile Include="Types\Lotto.cs" />
+    <Compile Include="GameTypes\BasicGame.cs" />
+    <Compile Include="GameTypes\EuroJackpot.cs" />
+    <Compile Include="GameTypes\Vikinglotto.cs" />
+    <Compile Include="GameTypes\Lotto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResultsRepository.cs" />
+    <Compile Include="Repository\FileRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
