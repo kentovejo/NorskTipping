@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Hosting;
 using NorskTipping;
+using Security.Identity;
 
 namespace Presentation.Web
 {
@@ -13,6 +14,7 @@ namespace Presentation.Web
         {
             if (!IsPostBack)
                 AddClientCode();
+            chkSorted.Enabled = SystemAccess.IsAuthenticated;
         }
 
         protected void chkSorted_OnCheckedChanged(object sender, EventArgs e)
@@ -45,9 +47,12 @@ namespace Presentation.Web
         {
             if (!Page.ClientScript.IsStartupScriptRegistered("LottoResults"))
             {
+                var sorted = false;
+                if (Csla.ApplicationContext.User.Identity.IsAuthenticated)
+                    sorted = chkSorted.Checked;
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), "LottoResults",
-                    _game.Do(cboGame.SelectedIndex, _savePath, (int) cboLastRounds.SelectedItem.Value, chkSorted.Checked,
-                        (string) cboFilterRounds.SelectedItem.Value), true);
+                _game.Do(cboGame.SelectedIndex, _savePath, (int) cboLastRounds.SelectedItem.Value, sorted,
+                    (string) cboFilterRounds.SelectedItem.Value), true);
             }
         }
 

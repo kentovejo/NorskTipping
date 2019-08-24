@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text;
 using System.Net.Mail;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using Csla;
