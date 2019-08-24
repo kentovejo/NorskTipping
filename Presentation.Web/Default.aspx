@@ -50,7 +50,7 @@
                         <CaptionSettings Position="Left"></CaptionSettings>
                     </dx:ASPxComboBox>
                 </td>
-                <td>
+                <td style="padding-right: 5px;">
                     <dx:ASPxComboBox runat="server" ID="cboFilterRounds" AutoPostBack="True" Caption="Spesialfilter" OnValueChanged="cboFilterRounds_OnValueChanged" SelectedIndex="0">
                         <Items>
                             <dx:ListEditItem Text="Alle" Value="ALL" />
@@ -63,28 +63,28 @@
                 <td style="padding-right: 5px;">
                     <dx:ASPxLabel runat="server" Text="Tipp:" />
                 </td>
-                <td>
+                <td style="padding-right: 5px;">
                     <dx:ASPxTextBox runat="server" ID="txtBall1" ClientInstanceName="txtBall1" Width="30px"></dx:ASPxTextBox>
                 </td>
-                <td>
+                <td style="padding-right: 5px;">
                     <dx:ASPxTextBox runat="server" ID="txtBall2" ClientInstanceName="txtBall2" Width="30px"></dx:ASPxTextBox>
                 </td>
-                <td>
+                <td style="padding-right: 5px;">
                     <dx:ASPxTextBox runat="server" ID="txtBall3" ClientInstanceName="txtBall3" Width="30px"></dx:ASPxTextBox>
                 </td>
-                <td>
+                <td style="padding-right: 5px;">
                     <dx:ASPxTextBox runat="server" ID="txtBall4" ClientInstanceName="txtBall4" Width="30px"></dx:ASPxTextBox>
                 </td>
-                <td>
+                <td style="padding-right: 5px;">
                     <dx:ASPxTextBox runat="server" ID="txtBall5" ClientInstanceName="txtBall5" Width="30px"></dx:ASPxTextBox>
                 </td>
-                <td>
+                <td style="padding-right: 5px;">
                     <dx:ASPxTextBox runat="server" ID="txtBall6" ClientInstanceName="txtBall6" Width="30px"></dx:ASPxTextBox>
                 </td>
-                <td>
+                <td style="padding-right: 5px;">
                     <dx:ASPxTextBox runat="server" ID="txtBall7" ClientInstanceName="txtBall7" Width="30px"></dx:ASPxTextBox>
                 </td>
-                <td>
+                <td style="padding-right: 5px;">
                     <dx:ASPxButton runat="server" ID="btnUpdateEstimate" Text="Oppdater" OnClick="btnUpdateEstimate_Click"></dx:ASPxButton>
                 </td>
             </tr>

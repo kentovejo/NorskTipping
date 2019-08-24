@@ -32,10 +32,8 @@ namespace NorskTipping
         public void GetResultsModel(string path, IEnumerable<int> labels, bool sorted)
         {
             for (var i = 1; i < 9; i++)
-            {
                 Model.Add(new GameResultModel{Label = "Ball nr. "  + i, Data = new ArrayList()});
-            }
-            
+
             Model[0].BorderColor = "red";
             Model[1].BorderColor = "blue";
             Model[2].BorderColor = "brown";

@@ -12,9 +12,7 @@ namespace Presentation.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-            {
                 AddClientCode();
-            }
         }
 
         protected void chkSorted_OnCheckedChanged(object sender, EventArgs e)

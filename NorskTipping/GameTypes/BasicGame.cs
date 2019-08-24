@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NorskTipping
 {
@@ -9,7 +8,6 @@ namespace NorskTipping
         public GameModel Init;
         public int CurrentRound => (int)Math.Floor((DateTime.Today.Subtract(Init.InitialDate).TotalDays - 1) / 7) + 1;
         public GameRoundResultModel NextRoundEstimate { get; set; } = new GameRoundResultModel();
-
         public List<GameResultModel> Model = new List<GameResultModel>();
         public static GameRoundResultModel GetNumbers(string path, int round)
         {            
@@ -22,7 +20,7 @@ namespace NorskTipping
             {
                 if (NextRoundEstimate.UnsortedMainTable.Count > 0)
                 {
-                    for(var i = NextRoundEstimate.UnsortedMainTable.Count; i < 8; i++)
+                    for(var i = NextRoundEstimate.UnsortedMainTable.Count; i < 7; i++)
                         NextRoundEstimate.UnsortedMainTable.Add(0);
                     if (sorted)
                         NextRoundEstimate.UnsortedMainTable.Sort();
