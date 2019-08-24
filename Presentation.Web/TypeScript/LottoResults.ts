@@ -15,8 +15,9 @@ window.onload = () => {
         },
         options: {  
             hover: {
-                mode: 'index'
+                mode: "index"
             },
         }
     });
+    txtBall1.SetText(lottoData.);
 }

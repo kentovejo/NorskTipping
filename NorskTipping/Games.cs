@@ -4,7 +4,7 @@ namespace NorskTipping
 {
     public class Games
     {
-        public readonly List<IGame> GameTypes = new List<IGame>();
+        public readonly IList<IGame> GameTypes = new List<IGame>();
 
         public Games()
         {

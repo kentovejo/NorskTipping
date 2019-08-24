@@ -46,9 +46,6 @@
                         <Items>
                             <dx:ListEditItem Text="10" Value="10" />
                             <dx:ListEditItem Text="30" Value="30" />
-<%--                            <dx:ListEditItem Text="50" Value="50" />
-                            <dx:ListEditItem Text="70" Value="70" />
-                            <dx:ListEditItem Text="110" Value="110" />--%>
                         </Items>
                         <CaptionSettings Position="Left"></CaptionSettings>
                     </dx:ASPxComboBox>
@@ -62,6 +59,33 @@
                         </Items>
                         <CaptionSettings Position="Left"></CaptionSettings>
                     </dx:ASPxComboBox>
+                </td>
+                <td style="padding-right: 5px;">
+                    <dx:ASPxLabel runat="server" Text="Tipp:" />
+                </td>
+                <td>
+                    <dx:ASPxTextBox runat="server" ID="txtBall1" ClientInstanceName="txtBall1" Width="30px"></dx:ASPxTextBox>
+                </td>
+                <td>
+                    <dx:ASPxTextBox runat="server" ID="txtBall2" ClientInstanceName="txtBall2" Width="30px"></dx:ASPxTextBox>
+                </td>
+                <td>
+                    <dx:ASPxTextBox runat="server" ID="txtBall3" ClientInstanceName="txtBall3" Width="30px"></dx:ASPxTextBox>
+                </td>
+                <td>
+                    <dx:ASPxTextBox runat="server" ID="txtBall4" ClientInstanceName="txtBall4" Width="30px"></dx:ASPxTextBox>
+                </td>
+                <td>
+                    <dx:ASPxTextBox runat="server" ID="txtBall5" ClientInstanceName="txtBall5" Width="30px"></dx:ASPxTextBox>
+                </td>
+                <td>
+                    <dx:ASPxTextBox runat="server" ID="txtBall6" ClientInstanceName="txtBall6" Width="30px"></dx:ASPxTextBox>
+                </td>
+                <td>
+                    <dx:ASPxTextBox runat="server" ID="txtBall7" ClientInstanceName="txtBall7" Width="30px"></dx:ASPxTextBox>
+                </td>
+                <td>
+                    <dx:ASPxButton runat="server" ID="btnUpdateEstimate" Text="Oppdater" OnClick="btnUpdateEstimate_Click"></dx:ASPxButton>
                 </td>
             </tr>
         </table>

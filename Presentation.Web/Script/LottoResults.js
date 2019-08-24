@@ -11,7 +11,7 @@ window.onload = function () {
         },
         options: {
             hover: {
-                mode: 'index'
+                mode: "index"
             },
         }
     });

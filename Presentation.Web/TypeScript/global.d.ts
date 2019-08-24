@@ -7,3 +7,4 @@ declare module LottoTypes {
         fill: boolean;
     }
 }
+declare var txtBall1 : ASPxClientTextBox;

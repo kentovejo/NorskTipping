@@ -7,9 +7,7 @@ namespace NorskTipping
         public GameRoundResultModel GetRound(string path, int round)
         {
             var json = FileRepository.GetRoundResults(path, round);
-            if (!string.IsNullOrEmpty(json))
-                return JsonConvert.DeserializeObject<GameRoundResultModel>(json);
-            return new GameRoundResultModel();
+            return !string.IsNullOrEmpty(json) ? JsonConvert.DeserializeObject<GameRoundResultModel>(json) : new GameRoundResultModel();
         }
     }
 }
