@@ -1,4 +1,6 @@
-﻿namespace Security.Identity
+﻿using Csla;
+
+namespace Security.Identity
 {
     public class SystemAccess
     {
