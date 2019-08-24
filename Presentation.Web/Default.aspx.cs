@@ -47,9 +47,7 @@ namespace Presentation.Web
         {
             if (!Page.ClientScript.IsStartupScriptRegistered("LottoResults"))
             {
-                var sorted = false;
-                if (Csla.ApplicationContext.User.Identity.IsAuthenticated)
-                    sorted = chkSorted.Checked;
+                var sorted = SystemAccess.IsAuthenticated && chkSorted.Checked;
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), "LottoResults",
                 _game.Do(cboGame.SelectedIndex, _savePath, (int) cboLastRounds.SelectedItem.Value, sorted,
                     (string) cboFilterRounds.SelectedItem.Value), true);
