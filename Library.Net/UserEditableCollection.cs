@@ -7,7 +7,7 @@ using Csla.Data;
 namespace Library.Net
 {
     [Serializable]
-    public class UserERList : BusinessListBase<UserERList, UserEC>
+    public class UserEditableCollection : BusinessListBase<UserEditableCollection, User>
     {
         #region Enum criteria type
 
@@ -21,25 +21,25 @@ namespace Library.Net
 
         #region Factory Methods
 
-        public static UserERList NewUserERList()
+        public static UserEditableCollection NewUserERList()
         {
-            return new UserERList();
+            return new UserEditableCollection();
         }
 
-        public static UserERList GetUserERList()
+        public static UserEditableCollection GetUserERList()
         {
-            return DataPortal.Fetch<UserERList>(new FilterCriteria());
+            return DataPortal.Fetch<UserEditableCollection>(new FilterCriteria());
         }
 
-        public static UserERList GetUserERList(string userName)
+        public static UserEditableCollection GetUserERList(string userName)
         {
-            return DataPortal.Fetch<UserERList>(new FilterCriteria(userName));
+            return DataPortal.Fetch<UserEditableCollection>(new FilterCriteria(userName));
         }
 
-        public static UserERList GetUserERList(string userName, string password)
+        public static UserEditableCollection GetUserERList(string userName, string password)
         {
             // Used to prelogin user
-            return DataPortal.Fetch<UserERList>(new FilterCriteria(userName, password));
+            return DataPortal.Fetch<UserEditableCollection>(new FilterCriteria(userName, password));
         }
 
         #endregion //Factory Methods
@@ -115,7 +115,7 @@ namespace Library.Net
                     using (var dr = new SafeDataReader(cm.ExecuteReader()))
                     {
                         while (dr.Read())
-                            Add(UserEC.GetUserEC(dr));
+                            Add(User.GetUserEC(dr));
                     }
             } //using
         }

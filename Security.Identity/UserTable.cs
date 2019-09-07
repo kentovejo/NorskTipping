@@ -9,21 +9,21 @@ namespace Security.Identity
     {
         public TUser GetUserById(string id)
         {
-            var userList = UserRORList.GetUserRORList().Where(a => a.Id == id);
+            var userList = UserCollection.GetUserRORList().Where(a => a.Id == id);
             var list = GetUserExtracted(userList);
             return list.Count == 1 ? list[0] : null;
         }
 
         public TUser GetUserByName(string userName)
         {
-            var userList = UserRORList.GetUserRORList().Where(a => a.UserName == userName);
+            var userList = UserCollection.GetUserRORList().Where(a => a.UserName == userName);
             var list = GetUserExtracted(userList);
             return list.Count == 1 ? list[0] : null;
         }
 
         public TUser GetUserByEmail(string email)
         {
-            var userList = UserRORList.GetUserRORList().Where(a => a.Email == email);
+            var userList = UserCollection.GetUserRORList().Where(a => a.Email == email);
             var list = GetUserExtracted(userList);
             return list.Count == 1 ? list[0] : null;
         }
@@ -46,17 +46,17 @@ namespace Security.Identity
 
         internal string GetPasswordHash(IdentityUser user)
         {
-            var u = UserEC.GetUserEC(user.Id);
+            var u = User.GetUserEC(user.Id);
             return u.Password;
         }
 
         internal void Delete(string id)
         {
-            var u = UserEC.GetUserEC(id);
+            var u = User.GetUserEC(id);
             u.IsActive = false;
         }
 
-        private static List<TUser> GetUserExtracted(IEnumerable<UserROC> userList)
+        private static List<TUser> GetUserExtracted(IEnumerable<UserReadOnly> userList)
         {
             var u = new List<TUser>();
             foreach (var row in userList)

@@ -8,7 +8,7 @@ using Csla.Data;
 namespace Library.Net
 {
     [Serializable]
-    public class UserClaimEC : BusinessBase<UserClaimEC>
+    public class UserClaim : BusinessBase<UserClaim>
     {
         #region Business Properties and Methods
 
@@ -65,36 +65,36 @@ namespace Library.Net
 
         #region Factory Methods
 
-        public static UserClaimEC NewUserClaimEC()
+        public static UserClaim NewUserClaimEC()
         {
-            return DataPortal.Create<UserClaimEC>();
+            return DataPortal.Create<UserClaim>();
         }
 
-        public static UserClaimEC GetUserClaimEC(string userId, string claimValue, string claimType)
+        public static UserClaim GetUserClaimEC(string userId, string claimValue, string claimType)
         {
-            return DataPortal.Fetch<UserClaimEC>(new Criteria(userId, claimValue, claimType));
+            return DataPortal.Fetch<UserClaim>(new Criteria(userId, claimValue, claimType));
         }
 
         public static void DeleteUserClaimEC(string userId, string claimValue, string claimType)
         {
-            DataPortal.Delete<UserClaimEC>(new Criteria(userId, claimValue, claimType));
+            DataPortal.Delete<UserClaim>(new Criteria(userId, claimValue, claimType));
         }
 
         #endregion //Factory Methods
 
         #region Child Factory Methods
 
-        internal static UserClaimEC NewUserClaimECChild()
+        internal static UserClaim NewUserClaimECChild()
         {
-            var child = new UserClaimEC();
+            var child = new UserClaim();
             child.BusinessRules.CheckRules();
             child.MarkAsChild();
             return child;
         }
 
-        internal static UserClaimEC GetUserClaimEC(SafeDataReader dr)
+        internal static UserClaim GetUserClaimEC(SafeDataReader dr)
         {
-            var child = new UserClaimEC();
+            var child = new UserClaim();
             child.MarkAsChild();
             child.Fetch(dr);
             return child;

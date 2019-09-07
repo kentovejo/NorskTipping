@@ -7,18 +7,29 @@ using Csla.Data;
 namespace Library.Net
 {
     [Serializable]
-    public class RoleERList : BusinessListBase<RoleERList, RoleEC>
+    public class UserClaimCollection : BusinessListBase<UserClaimCollection, UserClaim>
     {
-        #region Factory Methods
+        #region BindingList Overrides
 
-        public static RoleERList NewRoleERList()
+        protected new object AddNewCore()
         {
-            return new RoleERList();
+            var item = UserClaim.NewUserClaimEC();
+            Add(item);
+            return item;
         }
 
-        public static RoleERList GetRoleERList()
+        #endregion //BindingList Overrides
+
+        #region Factory Methods
+
+        public static UserClaimCollection NewUserClaimERList()
         {
-            return DataPortal.Fetch<RoleERList>(new FilterCriteria());
+            return new UserClaimCollection();
+        }
+
+        public static UserClaimCollection GetUserClaimERList(string userId)
+        {
+            return DataPortal.Fetch<UserClaimCollection>(new FilterCriteria(userId));
         }
 
         #endregion //Factory Methods
@@ -30,6 +41,12 @@ namespace Library.Net
         [Serializable]
         private class FilterCriteria
         {
+            internal readonly object UserId;
+
+            public FilterCriteria(string userId)
+            {
+                UserId = userId;
+            }
         }
 
         #endregion //Filter Criteria
@@ -53,11 +70,12 @@ namespace Library.Net
             using (var cm = cn.CreateCommand())
             {
                 cm.CommandType = CommandType.StoredProcedure;
-                cm.CommandText = "sp_SelectRoleAll";
+                cm.CommandText = "sp_SelectUserClaimByfk_User";
+                cm.Parameters.AddWithValue("@UserId", criteria.UserId);
                 using (var dr = new SafeDataReader(cm.ExecuteReader()))
                 {
                     while (dr.Read())
-                        Add(RoleEC.GetRoleEC(dr));
+                        Add(UserClaim.GetUserClaimEC(dr));
                 }
             } //using
         }

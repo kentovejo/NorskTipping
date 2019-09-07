@@ -48,21 +48,21 @@
     <Compile Include="Interfaces\IUserInfo.cs" />
     <Compile Include="Interfaces\IUserInfoEdit.cs" />
     <Compile Include="Interfaces\IUserInfoRead.cs" />
-    <Compile Include="RoleEC.cs" />
-    <Compile Include="RoleERList.cs" />
-    <Compile Include="UserClaimEC.cs" />
-    <Compile Include="UserClaimERList.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="RoleCollection.cs" />
+    <Compile Include="UserClaim.cs" />
+    <Compile Include="UserClaimCollection.cs" />
     <Compile Include="UserLoginEC.cs" />
-    <Compile Include="UserLoginERList .cs" />
+    <Compile Include="UserLoginCollection.cs" />
     <Compile Include="UserReadBase.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserEC.cs" />
-    <Compile Include="UserERList.cs" />
-    <Compile Include="UserROC.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserEditableCollection.cs" />
+    <Compile Include="UserReadOnly.cs" />
     <Compile Include="UserRoleEC.cs" />
-    <Compile Include="UserRoleERList.cs" />
-    <Compile Include="UserRORList.cs" />
+    <Compile Include="UserRoleCollection.cs" />
+    <Compile Include="UserCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

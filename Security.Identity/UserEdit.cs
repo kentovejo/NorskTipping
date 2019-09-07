@@ -23,7 +23,7 @@ namespace Security.Identity
         {
             var clearPassword = UserPassword.GetClearPassword();
             // New user
-            var u = UserEC.NewUserEC(userName.Trim().ToLower());
+            var u = User.NewUserEC(userName.Trim().ToLower());
             u.Password = string.Empty; // new SecureAuthentication().EncodePassword(u.UserName.Trim().ToLower() + clearPassword);
             // Store email in lower case
             u.Email = email.ToLower();
@@ -36,7 +36,7 @@ namespace Security.Identity
 
         public string Update(string userName, string email, string comment, bool isActive)
         {
-            var u = UserEC.GetUserEC(userName);
+            var u = User.GetUserEC(userName);
             // Store email in lower case
             u.Email = email.ToLower();
             u.Comment = comment;
@@ -47,7 +47,7 @@ namespace Security.Identity
 
         public string Update(string userName, string email, string comment, bool isActive, int failedPasswordCount, DateTime? lockoutEndDate, string securityStamp)
         {
-            var u = UserEC.GetUserEC(userName);
+            var u = User.GetUserEC(userName);
             // Store email in lower case
             u.Email = email.ToLower();
             u.Comment = comment;
@@ -61,7 +61,7 @@ namespace Security.Identity
 
         public string Update(string userName, string email, string comment, bool isActive, string passwordHash, bool mustChangePassword, int failedPasswordCount, DateTime? lockoutEndDate, string securityStamp)
         {
-            var u = UserEC.GetUserEC(userName);
+            var u = User.GetUserEC(userName);
             // Store email in lower case
             u.Email = email.ToLower();
             u.Comment = comment;
@@ -75,7 +75,7 @@ namespace Security.Identity
             return error.Error;
         }
 
-        public UserEditSave Persist(UserEC u)
+        public UserEditSave Persist(User u)
         {
             var error = string.Empty;
             var fkUserProfile = 0;
@@ -123,7 +123,7 @@ namespace Security.Identity
 
         public string Unlock(string userName, DateTime unlockDate)
         {
-            var u = UserEC.GetUserEC(userName);
+            var u = User.GetUserEC(userName);
             // Unlock user
             u.LockoutEndDateUtc = unlockDate;
             u.FailedPasswordAttemptCount = 0;
@@ -141,7 +141,7 @@ namespace Security.Identity
         public string SaveUserRole(string userName, List<object> values)
         {
             var error = string.Empty;
-            var userRoleList = UserRoleERList.GetUserRoleERList(userName);
+            var userRoleList = UserRoleCollection.GetUserRoleERList(userName);
             // Update user roles.
             foreach (var item in userRoleList)
             {

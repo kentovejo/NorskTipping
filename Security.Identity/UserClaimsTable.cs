@@ -8,7 +8,7 @@ namespace Security.Identity
         public ClaimsIdentity FindByUserId(string userId)
         {
             var claims = new ClaimsIdentity();
-            var list = UserClaimERList.GetUserClaimERList(userId);
+            var list = UserClaimCollection.GetUserClaimERList(userId);
             foreach (var item in list)
                 claims.AddClaim(new IdentityClaim
                 {
@@ -22,7 +22,7 @@ namespace Security.Identity
 
         public void AddClaim(IdentityClaim claim)
         {
-            var ucEC = UserClaimEC.NewUserClaimEC();
+            var ucEC = UserClaim.NewUserClaimEC();
             ucEC.UserId = claim.UserId;
             ucEC.ClaimValue = claim.ClaimValue;
             ucEC.ClaimType = claim.ClaimType;
@@ -31,7 +31,7 @@ namespace Security.Identity
 
         public void RemoveClaim(IdentityClaim claim)
         {
-            UserClaimEC.DeleteUserClaimEC(claim.UserId, claim.ClaimType, claim.ClaimValue);
+            UserClaim.DeleteUserClaimEC(claim.UserId, claim.ClaimType, claim.ClaimValue);
         }
     }
 }

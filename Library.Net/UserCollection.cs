@@ -7,7 +7,7 @@ using Csla.Data;
 namespace Library.Net
 {
     [Serializable]
-    public class UserRORList : ReadOnlyListBase<UserRORList, UserROC>
+    public class UserCollection : ReadOnlyListBase<UserCollection, UserReadOnly>
     {
         #region Enum criteria type
 
@@ -22,14 +22,14 @@ namespace Library.Net
 
         #region Factory Methods
 
-        public static UserRORList GetUserRORList(bool inactive = true)
+        public static UserCollection GetUserRORList(bool inactive = true)
         {
             return GetUserRORList(CriteriaType.None, 0, inactive);
         }
 
-        public static UserRORList GetUserRORList(CriteriaType type, int id, bool inactive = true)
+        public static UserCollection GetUserRORList(CriteriaType type, int id, bool inactive = true)
         {
-            return DataPortal.Fetch<UserRORList>(new FilterCriteria(type, id, inactive));
+            return DataPortal.Fetch<UserCollection>(new FilterCriteria(type, id, inactive));
         }
 
         #endregion //Factory Methods
@@ -100,7 +100,7 @@ namespace Library.Net
                 using (var dr = new SafeDataReader(cm.ExecuteReader()))
                 {
                     while (dr.Read())
-                        Add(UserROC.GetUserROC(dr));
+                        Add(UserReadOnly.GetUserROC(dr));
                 }
             } //using
         }

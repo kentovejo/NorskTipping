@@ -7,13 +7,13 @@ using Csla.Data;
 namespace Library.Net
 {
     [Serializable]
-    public class UserClaimERList : BusinessListBase<UserClaimERList, UserClaimEC>
+    public class UserLoginCollection : BusinessListBase<UserLoginCollection, UserLoginEC>
     {
         #region BindingList Overrides
 
         protected new object AddNewCore()
         {
-            var item = UserClaimEC.NewUserClaimEC();
+            var item = UserLoginEC.NewUserLoginEC();
             Add(item);
             return item;
         }
@@ -22,14 +22,19 @@ namespace Library.Net
 
         #region Factory Methods
 
-        public static UserClaimERList NewUserClaimERList()
+        public static UserLoginCollection NewUserLoginERList()
         {
-            return new UserClaimERList();
+            return new UserLoginCollection();
         }
 
-        public static UserClaimERList GetUserClaimERList(string userId)
+        public static UserLoginCollection GetUserLoginERList(string userId)
         {
-            return DataPortal.Fetch<UserClaimERList>(new FilterCriteria(userId));
+            return DataPortal.Fetch<UserLoginCollection>(new FilterCriteria(userId));
+        }
+
+        public static UserLoginCollection GetUserLoginERList(string loginProvider, string providerKey)
+        {
+            return DataPortal.Fetch<UserLoginCollection>(new FilterCriteria(loginProvider, providerKey));
         }
 
         #endregion //Factory Methods
@@ -41,11 +46,19 @@ namespace Library.Net
         [Serializable]
         private class FilterCriteria
         {
-            internal readonly object UserId;
+            internal readonly string LoginProvider;
+            internal readonly string ProviderKey;
+            internal readonly string UserId;
 
             public FilterCriteria(string userId)
             {
                 UserId = userId;
+            }
+
+            public FilterCriteria(string loginProvider, string providerKey)
+            {
+                LoginProvider = loginProvider;
+                ProviderKey = providerKey;
             }
         }
 
@@ -70,12 +83,21 @@ namespace Library.Net
             using (var cm = cn.CreateCommand())
             {
                 cm.CommandType = CommandType.StoredProcedure;
-                cm.CommandText = "sp_SelectUserClaimByfk_User";
-                cm.Parameters.AddWithValue("@UserId", criteria.UserId);
+                if (string.IsNullOrEmpty(criteria.UserId))
+                {
+                    cm.CommandText = "sp_SelectUserLogin";
+                    cm.Parameters.AddWithValue("@LoginProvider", criteria.LoginProvider);
+                    cm.Parameters.AddWithValue("@ProviderKey", criteria.ProviderKey);
+                }
+                else
+                {
+                    cm.CommandText = "sp_SelectUserLoginByfk_User";
+                    cm.Parameters.AddWithValue("@UserId", criteria.UserId);
+                }
                 using (var dr = new SafeDataReader(cm.ExecuteReader()))
                 {
                     while (dr.Read())
-                        Add(UserClaimEC.GetUserClaimEC(dr));
+                        Add(UserLoginEC.GetUserLoginEC(dr));
                 }
             } //using
         }

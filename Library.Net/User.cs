@@ -8,7 +8,7 @@ using Csla.Data;
 namespace Library.Net
 {
     [Serializable]
-    public class UserEC : BusinessBase<UserEC>
+    public class User : BusinessBase<User>
     {
         #region Business Properties and Methods
 
@@ -235,16 +235,6 @@ namespace Library.Net
             set => SetProperty(PositionProperty, ref _position, value);
         }
 
-        public static readonly PropertyInfo<string> CodeSubjectsProperty = RegisterProperty<string>(p => p.CodeSubjects, RelationshipTypes.PrivateField);
-
-        private string _codeSubjects = CodeSubjectsProperty.DefaultValue;
-
-        public string CodeSubjects
-        {
-            get => GetProperty(CodeSubjectsProperty, _codeSubjects);
-            set => SetProperty(CodeSubjectsProperty, ref _codeSubjects, value);
-        }
-
         public static readonly PropertyInfo<bool> LockoutEnabledProperty = RegisterProperty(p => p.LockoutEnabled, null, true, RelationshipTypes.PrivateField);
 
         private bool _lockoutEnabled = LockoutEnabledProperty.DefaultValue;
@@ -305,46 +295,46 @@ namespace Library.Net
 
         #region Factory Methods
 
-        public UserEC()
+        public User()
         {
             /* require use of factory method */
         }
 
-        public static UserEC NewUserEC(string userName)
+        public static User NewUserEC(string userName)
         {
-            return DataPortal.Create<UserEC>(new Criteria(userName));
+            return DataPortal.Create<User>(new Criteria(userName));
         }
 
-        public static UserEC GetUserEC(string userName)
+        public static User GetUserEC(string userName)
         {
-            return DataPortal.Fetch<UserEC>(new Criteria(userName));
+            return DataPortal.Fetch<User>(new Criteria(userName));
         }
 
         public static void DeleteUserEC(string userName)
         {
-            DataPortal.Delete<UserEC>(new Criteria(userName));
+            DataPortal.Delete<User>(new Criteria(userName));
         }
 
         #endregion //Factory Methods
 
         #region Child Factory Methods
 
-        private UserEC(string userName)
+        private User(string userName)
         {
             _userName = userName;
         }
 
-        internal static UserEC NewUserECChild(string userName)
+        internal static User NewUserECChild(string userName)
         {
-            var child = new UserEC(userName);
+            var child = new User(userName);
             child.BusinessRules.CheckRules();
             child.MarkAsChild();
             return child;
         }
 
-        internal static UserEC GetUserEC(SafeDataReader dr)
+        internal static User GetUserEC(SafeDataReader dr)
         {
-            var child = new UserEC();
+            var child = new User();
             child.MarkAsChild();
             child.Fetch(dr);
             return child;
@@ -495,23 +485,11 @@ namespace Library.Net
             _failedPasswordAttemptCount = dr.GetInt32("FailedPasswordAttemptCount");
             _comment = dr.GetString("Comment");
             _mustChangePassword = dr.GetBoolean("MustChangePassword");
-            switch (UserName)
-            {
-                case "admin":
-                    _firstName = "Administrator";
-                    break;
-                case "auto":
-                    _firstName = "Auto bruker";
-                    break;
-                default:
-                    _firstName = dr.GetString("FirstName");
-                    break;
-            }
+            _firstName = dr.GetString("FirstName");
             _middleName = dr.GetString("MiddleName");
             _lastName = dr.GetString("LastName");
             _personId = dr.GetInt32("ID");
             _position = dr.GetString("Position");
-            _codeSubjects = dr.GetString("CodeSubjects");
             _lockoutEnabled = dr.GetBoolean("LockoutEnabled");
             _twoFactorEnabled = dr.GetBoolean("TwoFactorEnabled");
             _securityStamp = dr.GetString("SecurityStamp");

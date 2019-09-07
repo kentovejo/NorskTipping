@@ -24,7 +24,6 @@ namespace Library.Net
         public DateTime LastLoginDate => _lastLoginDate.Date;
         public DateTime LastLockoutDate => _lastLockoutDate.Date;
         public DateTime LockoutEndDateUtc => _lockoutEndDateUtc.Date;
-        public string CodeSubjects { get; protected set; } = string.Empty;
         public bool IsActive { get; protected set; }
 
         public string FullName => throw new NotImplementedException();

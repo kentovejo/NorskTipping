@@ -17,14 +17,14 @@ namespace Security.Identity
 
         public string GetRoleName(string roleId)
         {
-            var list = RoleERList.GetRoleERList();
+            var list = RoleCollection.GetRoleERList();
             var result = list.FirstOrDefault(a => a.Name == roleId);
             return result?.Description;
         }
 
         public string GetRoleId(string roleName)
         {
-            var list = RoleERList.GetRoleERList();
+            var list = RoleCollection.GetRoleERList();
             var result = list.FirstOrDefault(a => a.Description == roleName);
             return result?.Name;
         }
@@ -60,7 +60,7 @@ namespace Security.Identity
 
         public void Update(IdentityRole role)
         {
-            var obj = RoleEC.GetRoleEC(role.Id);
+            var obj = Role.GetRoleEC(role.Id);
             obj.Description = role.Name;
             obj = obj.Save();
         }

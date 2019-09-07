@@ -8,7 +8,7 @@ namespace Security.Identity
     {
         public List<UserLoginInfo> GetLogins(IdentityUser user)
         {
-            var records = UserLoginERList.GetUserLoginERList(user.Id);
+            var records = UserLoginCollection.GetUserLoginERList(user.Id);
             var logins = new List<UserLoginInfo>();
             foreach (var record in records)
                 logins.Add(new UserLoginInfo(record.LoginProvider, record.ProviderKey));
@@ -31,7 +31,7 @@ namespace Security.Identity
 
         public string FindUserId(UserLoginInfo login)
         {
-            var result = UserLoginERList.GetUserLoginERList(login.LoginProvider, login.ProviderKey);
+            var result = UserLoginCollection.GetUserLoginERList(login.LoginProvider, login.ProviderKey);
             return result.Count > 0 ? result[0].UserId : string.Empty;
         }
     }

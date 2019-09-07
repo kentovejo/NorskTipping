@@ -13,6 +13,5 @@ namespace Library.Net
         DateTime LockoutEndDateUtc { get; }
         DateTime LastLoginDate { get; }
         DateTime CreatedDate { get; }
-        string CodeSubjects { get; }
     }
 }

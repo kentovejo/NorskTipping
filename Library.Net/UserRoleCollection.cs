@@ -1,40 +1,46 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using Csla;
 using Csla.Data;
 
 namespace Library.Net
 {
     [Serializable]
-    public class UserLoginERList : BusinessListBase<UserLoginERList, UserLoginEC>
+    public class UserRoleCollection : BusinessListBase<UserRoleCollection, UserRoleEC>
     {
+        public UserRoleEC GetItem(string fkUser, string fkRole)
+        {
+            return this.FirstOrDefault(item => item.FkUser == fkUser && item.FkRole == fkRole);
+        }
+
         #region BindingList Overrides
 
-        protected new object AddNewCore()
-        {
-            var item = UserLoginEC.NewUserLoginEC();
-            Add(item);
-            return item;
-        }
+        //protected new object AddNewCore()
+        //{
+        //    var item = UserRoleEC.NewUserRoleEC();
+        //    Add(item);
+        //    return item;
+        //}
 
         #endregion //BindingList Overrides
 
         #region Factory Methods
 
-        public static UserLoginERList NewUserLoginERList()
+        public static UserRoleCollection NewUserRoleERList()
         {
-            return new UserLoginERList();
+            return new UserRoleCollection();
         }
 
-        public static UserLoginERList GetUserLoginERList(string userId)
+        public static UserRoleCollection GetUserRoleERList(string userName)
         {
-            return DataPortal.Fetch<UserLoginERList>(new FilterCriteria(userId));
+            return GetUserRoleERList(userName, false);
         }
 
-        public static UserLoginERList GetUserLoginERList(string loginProvider, string providerKey)
+        public static UserRoleCollection GetUserRoleERList(string userName, bool showOnlySelected)
         {
-            return DataPortal.Fetch<UserLoginERList>(new FilterCriteria(loginProvider, providerKey));
+            return DataPortal.Fetch<UserRoleCollection>(new FilterCriteria(userName, showOnlySelected));
         }
 
         #endregion //Factory Methods
@@ -46,19 +52,13 @@ namespace Library.Net
         [Serializable]
         private class FilterCriteria
         {
-            internal readonly string LoginProvider;
-            internal readonly string ProviderKey;
-            internal readonly string UserId;
+            public readonly string FkUser;
+            public readonly bool ShowOnlySelected;
 
-            public FilterCriteria(string userId)
+            public FilterCriteria(string fkUser, bool showOnlySelected)
             {
-                UserId = userId;
-            }
-
-            public FilterCriteria(string loginProvider, string providerKey)
-            {
-                LoginProvider = loginProvider;
-                ProviderKey = providerKey;
+                FkUser = fkUser;
+                ShowOnlySelected = showOnlySelected;
             }
         }
 
@@ -83,21 +83,13 @@ namespace Library.Net
             using (var cm = cn.CreateCommand())
             {
                 cm.CommandType = CommandType.StoredProcedure;
-                if (string.IsNullOrEmpty(criteria.UserId))
-                {
-                    cm.CommandText = "sp_SelectUserLogin";
-                    cm.Parameters.AddWithValue("@LoginProvider", criteria.LoginProvider);
-                    cm.Parameters.AddWithValue("@ProviderKey", criteria.ProviderKey);
-                }
-                else
-                {
-                    cm.CommandText = "sp_SelectUserLoginByfk_User";
-                    cm.Parameters.AddWithValue("@UserId", criteria.UserId);
-                }
+                cm.CommandText = "sp_SelectUserRoleByfk_User";
+                cm.Parameters.AddWithValue("@UserName", criteria.FkUser);
+                cm.Parameters.AddWithValue("@ShowOnlySelected", criteria.ShowOnlySelected);
                 using (var dr = new SafeDataReader(cm.ExecuteReader()))
                 {
                     while (dr.Read())
-                        Add(UserLoginEC.GetUserLoginEC(dr));
+                        Add(UserRoleEC.GetUserRoleEC(dr));
                 }
             } //using
         }
@@ -116,13 +108,12 @@ namespace Library.Net
                 foreach (var deletedChild in DeletedList)
                     deletedChild.DeleteSelf(ctx.Connection);
                 DeletedList.Clear();
-
                 // loop through each non-deleted child object
                 foreach (var child in this)
                     if (child.IsNew)
-                        child.Insert(ctx.Connection);
+                        child.Insert(ctx.Connection, this);
                     else
-                        child.Update(ctx.Connection);
+                        child.Update(ctx.Connection, this);
             } //using SqlConnection
 
             RaiseListChangedEvents = true;

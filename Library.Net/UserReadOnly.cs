@@ -5,7 +5,7 @@ using Csla.Data;
 namespace Library.Net
 {
     [Serializable]
-    public class UserROC : UserReadBase<UserROC>
+    public class UserReadOnly : UserReadBase<UserReadOnly>
     {
         #region Business Properties and Methods
 
@@ -59,12 +59,12 @@ namespace Library.Net
 
         #region Factory Methods
 
-        internal static UserROC GetUserROC(SafeDataReader dr)
+        internal static UserReadOnly GetUserROC(SafeDataReader dr)
         {
-            return new UserROC(dr);
+            return new UserReadOnly(dr);
         }
 
-        private UserROC(SafeDataReader dr)
+        private UserReadOnly(SafeDataReader dr)
         {
             Fetch(dr);
         }
@@ -105,22 +105,9 @@ namespace Library.Net
             FailedPasswordAttemptCount = dr.GetInt32("FailedPasswordAttemptCount");
             Comment = dr.GetString("Comment");
             Position = dr.GetString("Position");
-            switch (UserName)
-            {
-                case "admin":
-                    FirstName = "Administrator";
-                    break;
-                case "auto":
-                    FirstName = "Auto bruker";
-                    break;
-                default:
-                    FirstName = dr.GetString("FirstName");
-                    break;
-            }
+            FirstName = dr.GetString("FirstName");
             MiddleName = dr.GetString("MiddleName");
             LastName = dr.GetString("LastName");
-            CodeSubjects = dr.GetString("CodeSubjects");
-
             LockoutEnabled = dr.GetBoolean("LockoutEnabled");
             TwoFactorEnabled = dr.GetBoolean("TwoFactorEnabled");
             SecurityStamp = dr.GetString("SecurityStamp");
@@ -132,7 +119,7 @@ namespace Library.Net
         {
         }
 
-        public UserROC()
+        public UserReadOnly()
         {
         }
 

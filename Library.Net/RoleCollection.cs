@@ -1,46 +1,24 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using Csla;
 using Csla.Data;
 
 namespace Library.Net
 {
     [Serializable]
-    public class UserRoleERList : BusinessListBase<UserRoleERList, UserRoleEC>
+    public class RoleCollection : BusinessListBase<RoleCollection, Role>
     {
-        public UserRoleEC GetItem(string fkUser, string fkRole)
-        {
-            return this.FirstOrDefault(item => item.FkUser == fkUser && item.FkRole == fkRole);
-        }
-
-        #region BindingList Overrides
-
-        //protected new object AddNewCore()
-        //{
-        //    var item = UserRoleEC.NewUserRoleEC();
-        //    Add(item);
-        //    return item;
-        //}
-
-        #endregion //BindingList Overrides
-
         #region Factory Methods
 
-        public static UserRoleERList NewUserRoleERList()
+        public static RoleCollection NewRoleERList()
         {
-            return new UserRoleERList();
+            return new RoleCollection();
         }
 
-        public static UserRoleERList GetUserRoleERList(string userName)
+        public static RoleCollection GetRoleERList()
         {
-            return GetUserRoleERList(userName, false);
-        }
-
-        public static UserRoleERList GetUserRoleERList(string userName, bool showOnlySelected)
-        {
-            return DataPortal.Fetch<UserRoleERList>(new FilterCriteria(userName, showOnlySelected));
+            return DataPortal.Fetch<RoleCollection>(new FilterCriteria());
         }
 
         #endregion //Factory Methods
@@ -52,14 +30,6 @@ namespace Library.Net
         [Serializable]
         private class FilterCriteria
         {
-            public readonly string FkUser;
-            public readonly bool ShowOnlySelected;
-
-            public FilterCriteria(string fkUser, bool showOnlySelected)
-            {
-                FkUser = fkUser;
-                ShowOnlySelected = showOnlySelected;
-            }
         }
 
         #endregion //Filter Criteria
@@ -83,13 +53,11 @@ namespace Library.Net
             using (var cm = cn.CreateCommand())
             {
                 cm.CommandType = CommandType.StoredProcedure;
-                cm.CommandText = "sp_SelectUserRoleByfk_User";
-                cm.Parameters.AddWithValue("@UserName", criteria.FkUser);
-                cm.Parameters.AddWithValue("@ShowOnlySelected", criteria.ShowOnlySelected);
+                cm.CommandText = "sp_SelectRoleAll";
                 using (var dr = new SafeDataReader(cm.ExecuteReader()))
                 {
                     while (dr.Read())
-                        Add(UserRoleEC.GetUserRoleEC(dr));
+                        Add(Role.GetRoleEC(dr));
                 }
             } //using
         }
@@ -108,12 +76,13 @@ namespace Library.Net
                 foreach (var deletedChild in DeletedList)
                     deletedChild.DeleteSelf(ctx.Connection);
                 DeletedList.Clear();
+
                 // loop through each non-deleted child object
                 foreach (var child in this)
                     if (child.IsNew)
-                        child.Insert(ctx.Connection, this);
+                        child.Insert(ctx.Connection);
                     else
-                        child.Update(ctx.Connection, this);
+                        child.Update(ctx.Connection);
             } //using SqlConnection
 
             RaiseListChangedEvents = true;

@@ -106,7 +106,7 @@ namespace Library.Net
 
         #region Data Access - Insert
 
-        internal void Insert(SqlConnection cn, UserRoleERList parent)
+        internal void Insert(SqlConnection cn, UserRoleCollection parent)
         {
             throw new NotImplementedException("Insert not allowed");
             //if (!IsDirty) return;
@@ -150,7 +150,7 @@ namespace Library.Net
 
         #region Data Access - Update
 
-        internal void Update(SqlConnection cn, UserRoleERList parent)
+        internal void Update(SqlConnection cn, UserRoleCollection parent)
         {
             if (!IsDirty)
                 return;
@@ -165,7 +165,7 @@ namespace Library.Net
             UpdateChildren(cn);
         }
 
-        private void ExecuteUpdate(SqlConnection cn, UserRoleERList parent)
+        private void ExecuteUpdate(SqlConnection cn, UserRoleCollection parent)
         {
             using (var cm = cn.CreateCommand())
             {
@@ -176,7 +176,7 @@ namespace Library.Net
             } //using
         }
 
-        private void AddUpdateParameters(SqlCommand cm, UserRoleERList parent)
+        private void AddUpdateParameters(SqlCommand cm, UserRoleCollection parent)
         {
             cm.Parameters.AddWithValue("@fk_User", _fkUser);
             cm.Parameters.AddWithValue("@fk_Role", _fkRole);

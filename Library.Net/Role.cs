@@ -8,7 +8,7 @@ using Csla.Data;
 namespace Library.Net
 {
     [Serializable]
-    public class RoleEC : BusinessBase<RoleEC>
+    public class Role : BusinessBase<Role>
     {
         #region Business Properties and Methods
 
@@ -56,46 +56,46 @@ namespace Library.Net
 
         #region Factory Methods
 
-        public RoleEC()
+        public Role()
         {
             /* require use of factory method */
         }
 
-        public static RoleEC NewRoleEC(string name)
+        public static Role NewRoleEC(string name)
         {
-            return DataPortal.Create<RoleEC>(new Criteria(name));
+            return DataPortal.Create<Role>(new Criteria(name));
         }
 
-        public static RoleEC GetRoleEC(string name)
+        public static Role GetRoleEC(string name)
         {
-            return DataPortal.Fetch<RoleEC>(new Criteria(name));
+            return DataPortal.Fetch<Role>(new Criteria(name));
         }
 
         public static void DeleteRoleEC(string name)
         {
-            DataPortal.Delete<RoleEC>(new Criteria(name));
+            DataPortal.Delete<Role>(new Criteria(name));
         }
 
         #endregion //Factory Methods
 
         #region Child Factory Methods
 
-        private RoleEC(string name)
+        private Role(string name)
         {
             _name = name;
         }
 
-        internal static RoleEC NewRoleECChild(string name)
+        internal static Role NewRoleECChild(string name)
         {
-            var child = new RoleEC(name);
+            var child = new Role(name);
             child.BusinessRules.CheckRules();
             child.MarkAsChild();
             return child;
         }
 
-        internal static RoleEC GetRoleEC(SafeDataReader dr)
+        internal static Role GetRoleEC(SafeDataReader dr)
         {
-            var child = new RoleEC();
+            var child = new Role();
             child.MarkAsChild();
             child.Fetch(dr);
             return child;

@@ -9,7 +9,7 @@ namespace Security.Identity
         // Save user roles
         public void Insert(IdentityUser user, string roleId)
         {
-            var userRoleList = UserRoleERList.GetUserRoleERList(user.Id);
+            var userRoleList = UserRoleCollection.GetUserRoleERList(user.Id);
             var list = new List<object>();
             foreach (var item in userRoleList)
             {
@@ -25,7 +25,7 @@ namespace Security.Identity
 
         public void Delete(IdentityUser user, string roleId)
         {
-            var userRoleList = UserRoleERList.GetUserRoleERList(user.Id);
+            var userRoleList = UserRoleCollection.GetUserRoleERList(user.Id);
             var list = new List<object>();
             foreach (var item in userRoleList)
             {
@@ -41,7 +41,7 @@ namespace Security.Identity
 
         public IEnumerable<IdentityRole> FindByUserId(string userId)
         {
-            var userRoleList = UserRoleERList.GetUserRoleERList(userId);
+            var userRoleList = UserRoleCollection.GetUserRoleERList(userId);
             var list = new List<IdentityRole>();
             foreach (var item in userRoleList)
                 if (item.Selected)
